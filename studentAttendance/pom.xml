@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>hei.school.kenny</groupId>
-    <artifactId>TOdoListe</artifactId>
+    <artifactId>studentAttendance</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>TOdoListe</name>
     <description>TOdoListe</description>
