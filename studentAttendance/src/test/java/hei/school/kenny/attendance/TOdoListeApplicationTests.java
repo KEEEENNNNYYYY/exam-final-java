@@ -1,4 +1,4 @@
-package hei.school.kenny.gestionD_absence;
+package hei.school.kenny.attendance;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
