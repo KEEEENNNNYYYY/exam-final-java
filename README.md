@@ -2,10 +2,11 @@
 
 # gestion d'absence
 
-# to do : 
+# To do : 
     - CRUD : missing_list , late_list, student , subject 
     - show : all missing_list,by date, by std
     - show : all late_list, by date , by std 
+    - show : all missing or late by subject
 
-# done : 
+# Done : 
     - show : all student
