@@ -1,16 +1,33 @@
 package hei.school.kenny.attendance.model;
 
+import java.util.Date;
+
 public class Student {
     private String id;
     private String firstName;
     private String lastName;
-    private String birthday;
-    private String grades;
+    private Date birthday;
+    private Grade grade;
     private String adress;
-    private String sexe;
-    private String cored;
+    private Sexe sexe;
+    private boolean cored;
     private String email;
-    private String groupe;
+    private Groupe groupe;
+
+    public Student(
+            ) {
+        this.adress = adress;
+        this.birthday = birthday;
+        this.cored = cored;
+        this.email = email;
+        this.firstName = firstName;
+        this.grade = grade;
+        this.groupe = groupe;
+        this.id = id;
+        this.lastName = lastName;
+        this.sexe = sexe;
+    }
+
 
     public String getAdress() {
         return adress;
@@ -20,19 +37,19 @@ public class Student {
         this.adress = adress;
     }
 
-    public String getBirthday() {
+    public Date getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(String birthday) {
+    public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
 
-    public String getCored() {
+    public boolean isCored() {
         return cored;
     }
 
-    public void setCored(String cored) {
+    public void setCored(boolean cored) {
         this.cored = cored;
     }
 
@@ -52,19 +69,19 @@ public class Student {
         this.firstName = firstName;
     }
 
-    public String getGrades() {
-        return grades;
+    public Grade getGrade() {
+        return grade;
     }
 
-    public void setGrades(String grades) {
-        this.grades = grades;
+    public void setGrade(Grade grade) {
+        this.grade = grade;
     }
 
-    public String getGroupe() {
+    public Groupe getGroupe() {
         return groupe;
     }
 
-    public void setGroupe(String groupe) {
+    public void setGroupe(Groupe groupe) {
         this.groupe = groupe;
     }
 
@@ -84,11 +101,11 @@ public class Student {
         this.lastName = lastName;
     }
 
-    public String getSexe() {
+    public Sexe getSexe() {
         return sexe;
     }
 
-    public void setSexe(String sexe) {
+    public void setSexe(Sexe sexe) {
         this.sexe = sexe;
     }
 }
