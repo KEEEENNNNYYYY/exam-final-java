@@ -1,0 +1,152 @@
+package hei.school.kenny.attendance.DAO;
+
+import hei.school.kenny.attendance.model.*;
+import org.springframework.stereotype.Repository;
+
+import java.io.Serializable;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+@Repository
+public class MissingListDAO implements Serializable {
+
+    private Connection connectToDb() {
+        String url = "jdbc:postgresql://localhost:5432/studentattendance?sslmode=disable";
+        String user = "postgres";
+        String password = "0000";
+        try {
+            Class.forName("org.postgresql.Driver");
+            return DriverManager.getConnection(url, user, password);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<MissingList> getMissingListByDate(Date date) {
+        List<MissingList> missingListList = new ArrayList<>();
+        Connection conn = connectToDb();
+
+        if (conn != null) {
+            String sql = "SELECT student_id, date, subject_id FROM missing_list WHERE date = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setDate(1, new java.sql.Date(date.getTime()));
+                try (ResultSet rs = pstmt.executeQuery()) {
+
+                    while (rs.next()) {
+                        String studentId = rs.getString("student_id");
+                        String subjectId = rs.getString("subject_id");
+
+                        Student student = getStudentById(studentId);
+
+                        Subject subject = getSubjectById(subjectId);
+
+                        MissingList missingList = new MissingList();
+                        missingList.setDate(date);
+                        missingList.setId(missingListList.size() + 1);
+                        missingList.setMissingStudent(List.of(student));
+                        missingList.setSubjectMissed(List.of(subject));
+
+                        missingListList.add(missingList);
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        if (conn != null && !conn.isClosed()) {
+                            conn.close();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return missingListList;
+    }
+
+    private Student getStudentById(String studentId) {
+        Student student = null;
+        Connection conn = connectToDb();
+
+        if (conn != null) {
+            String sql = "SELECT * FROM student WHERE id = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setString(1, studentId);
+                try (ResultSet rs = pstmt.executeQuery()) {
+
+                    if (rs.next()) {
+                        student = new Student();
+                        student.setId(rs.getString("id"));
+                        student.setFirstName(rs.getString("first_name"));
+                        student.setLastName(rs.getString("last_name"));
+                        student.setBirthday(rs.getDate("birthday"));
+                        student.setGrade(Grade.valueOf(rs.getString("grades")));
+                        student.setAdress(rs.getString("adress"));
+                        student.setSexe(Sexe.valueOf(rs.getString("sexe")));
+                        student.setEmail(rs.getString("email"));
+                        student.setGroupe(Groupe.valueOf(rs.getString("groupe")));
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        if (conn != null && !conn.isClosed()) {
+                            conn.close();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return student;
+    }
+
+    private Subject getSubjectById(String subjectId) {
+        Subject subject = null;
+        Connection conn = connectToDb();
+
+        if (conn != null) {
+            String sql = "SELECT * FROM subject WHERE id = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setString(1, subjectId);
+                try (ResultSet rs = pstmt.executeQuery()) {
+
+                    if (rs.next()) {
+                        subject = new Subject();
+                        subject.setId(rs.getInt("id"));
+                        subject.setName(rs.getString("name"));
+                        subject.setTeacher(rs.getString("teacher"));
+                        subject.setTotalHours(rs.getInt("total_hours"));
+                    }
+                    else{
+                        System.out.println("no student missing on that day");
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        if (conn != null && !conn.isClosed()) {
+                            conn.close();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return subject;
+    }
+}
