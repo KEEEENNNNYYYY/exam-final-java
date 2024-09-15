@@ -1,5 +1,8 @@
 package hei.school.kenny.attendance.DAO;
 
+import hei.school.kenny.attendance.model.Grade;
+import hei.school.kenny.attendance.model.Groupe;
+import hei.school.kenny.attendance.model.Sexe;
 import hei.school.kenny.attendance.model.Student;
 import org.springframework.stereotype.Repository;
 import java.io.Serializable;
@@ -34,16 +37,30 @@ public class ShowStudentDAO implements Serializable {
 
                 while (rs.next()) {
                     Student student = new Student();
+
                     student.setId(rs.getString("id"));
                     student.setFirstName(rs.getString("first_name"));
                     student.setLastName(rs.getString("last_name"));
-                    student.setBirthday(rs.getString("birthday"));
-                    student.setGrades(rs.getString("grades"));
+                    student.setBirthday(rs.getDate("birthday"));
+
+                    String gradeString = rs.getString("grades");
+                    System.out.println("Fetched grade value: " + gradeString);
+                    student.setGrade(Grade.valueOf(gradeString));
+
                     student.setAdress(rs.getString("adress"));
-                    student.setSexe(rs.getString("sexe"));
-                    student.setCored(rs.getString("cored"));
+
+
+                    String sexeString = rs.getString("sexe");
+                    student.setSexe(Sexe.valueOf(sexeString));
+
+                    boolean cored = rs.getBoolean("cored");
+                    student.setCored(cored);
+
                     student.setEmail(rs.getString("email"));
-                    student.setGroupe(rs.getString("groupe"));
+
+                    String groupeString = rs.getString("groupe");
+                    student.setGroupe(Groupe.valueOf(groupeString));
+
                     studentList.add(student);
                 }
 
@@ -61,4 +78,5 @@ public class ShowStudentDAO implements Serializable {
         }
         return studentList;
     }
+
 }
