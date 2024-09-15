@@ -1,9 +1,14 @@
 package hei.school.kenny.attendance.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Subject {
     private String name;
+    @JsonInclude
     private int totalHours;
     private String teacher;
+    @JsonInclude
     private int id;
 
     public Subject() {
