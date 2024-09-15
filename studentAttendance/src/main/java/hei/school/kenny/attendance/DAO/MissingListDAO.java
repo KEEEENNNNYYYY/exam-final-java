@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -70,12 +71,57 @@ public class MissingListDAO implements Serializable {
         return missingListList;
     }
 
+    public List<MissingList> getMissingListById(String id) {
+        List<MissingList> missingListList = new ArrayList<>();
+        Connection conn = connectToDb();
+
+        if (conn != null) {
+            String query = "SELECT student_id, date, subject_id FROM missing_list WHERE student_id = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+                pstmt.setString(1, id);
+                try (ResultSet rs = pstmt.executeQuery()) {
+
+                    while (rs.next()) {
+                        String studentId = rs.getString("student_id");
+                        String subjectId = rs.getString("subject_id");
+
+                        Student student = getStudentById(studentId);
+                        Subject subject = getSubjectById(subjectId);
+
+                        MissingList missingList = new MissingList();
+                        missingList.setDate(rs.getDate("date"));
+                        missingList.setId(missingListList.size() + 1);
+                        missingList.setMissingStudent(List.of(student));
+                        missingList.setSubjectMissed(List.of(subject));
+
+                        missingListList.add(missingList);
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        if (conn != null && !conn.isClosed()) {
+                            conn.close();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return missingListList;
+    }
+
+
     private Student getStudentById(String studentId) {
         Student student = null;
         Connection conn = connectToDb();
 
         if (conn != null) {
-            String sql = "SELECT * FROM student WHERE id = ?";
+            String sql = "SELECT id, first_name, last_name FROM student WHERE id = ?";
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setString(1, studentId);
                 try (ResultSet rs = pstmt.executeQuery()) {
@@ -85,12 +131,6 @@ public class MissingListDAO implements Serializable {
                         student.setId(rs.getString("id"));
                         student.setFirstName(rs.getString("first_name"));
                         student.setLastName(rs.getString("last_name"));
-                        student.setBirthday(rs.getDate("birthday"));
-                        student.setGrade(Grade.valueOf(rs.getString("grades")));
-                        student.setAdress(rs.getString("adress"));
-                        student.setSexe(Sexe.valueOf(rs.getString("sexe")));
-                        student.setEmail(rs.getString("email"));
-                        student.setGroupe(Groupe.valueOf(rs.getString("groupe")));
                     }
 
                 } catch (Exception e) {
@@ -116,17 +156,14 @@ public class MissingListDAO implements Serializable {
         Connection conn = connectToDb();
 
         if (conn != null) {
-            String sql = "SELECT * FROM subject WHERE id = ?";
+            String sql = "SELECT name ,teacher FROM subject WHERE id = ?";
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setString(1, subjectId);
                 try (ResultSet rs = pstmt.executeQuery()) {
 
                     if (rs.next()) {
                         subject = new Subject();
-                        subject.setId(rs.getInt("id"));
                         subject.setName(rs.getString("name"));
-                        subject.setTeacher(rs.getString("teacher"));
-                        subject.setTotalHours(rs.getInt("total_hours"));
                     }
                     else{
                         System.out.println("no student missing on that day");
