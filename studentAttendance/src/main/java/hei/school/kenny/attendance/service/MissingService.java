@@ -18,4 +18,8 @@ public class MissingService {
     public List<MissingList> getMissingListByDate(Date date) {
         return missingListDAO.getMissingListByDate(date);
     }
+
+    public List<MissingList> getMissingListById(String id) {
+        return missingListDAO.getMissingListById(id);
+    }
 }
