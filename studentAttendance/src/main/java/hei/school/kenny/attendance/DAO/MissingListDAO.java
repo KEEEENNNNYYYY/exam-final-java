@@ -26,6 +26,49 @@ public class MissingListDAO implements Serializable {
         }
     }
 
+    public List<MissingList> getAllMissingList() {
+        List<MissingList> missingListList = new ArrayList<>();
+        Connection conn = connectToDb();
+
+        if (conn != null) {
+            String query = "SELECT * FROM missing_list";
+            try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+                try (ResultSet rs = pstmt.executeQuery()) {
+
+                    while (rs.next()) {
+                        String studentId = rs.getString("student_id");
+                        String subjectId = rs.getString("subject_id");
+
+                        Student student = getStudentById(studentId);
+                        Subject subject = getSubjectById(subjectId);
+
+                        MissingList missingList = new MissingList();
+                        missingList.setDate(rs.getDate("date"));
+                        missingList.setId(missingListList.size() + 1);
+                        missingList.setMissingStudent(List.of(student));
+                        missingList.setSubjectMissed(List.of(subject));
+
+                        missingListList.add(missingList);
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        if (conn != null && !conn.isClosed()) {
+                            conn.close();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return missingListList;
+    }
+
     public List<MissingList> getMissingListByDate(Date date) {
         List<MissingList> missingListList = new ArrayList<>();
         Connection conn = connectToDb();
@@ -70,7 +113,6 @@ public class MissingListDAO implements Serializable {
         }
         return missingListList;
     }
-
 
     public List<MissingList> getMissingListById(String id) {
         List<MissingList> missingListList = new ArrayList<>();
