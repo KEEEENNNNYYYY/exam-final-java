@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RestController
-public class ShowMissingController {
+public class MissingController {
     private final MissingService missingService;
 
-    public ShowMissingController(MissingService missingService) {
+    public MissingController(MissingService missingService) {
         this.missingService = missingService;
     }
 
