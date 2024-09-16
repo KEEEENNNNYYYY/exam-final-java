@@ -15,6 +15,10 @@ public class MissingService {
         this.missingListDAO = missingListDAO;
     }
 
+    public List<MissingList> getAllMissingList() {
+        return missingListDAO.getAllMissingList();
+    }
+
     public List<MissingList> getMissingListByDate(Date date) {
         return missingListDAO.getMissingListByDate(date);
     }
