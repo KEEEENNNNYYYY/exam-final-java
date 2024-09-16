@@ -116,6 +116,50 @@ public class MissingListDAO implements Serializable {
         return missingListList;
     }
 
+    public List<MissingList> getMissingListBySubject(String name) {
+        List<MissingList> missingListList = new ArrayList<>();
+        Connection conn = connectToDb();
+
+        if (conn != null) {
+            String query = "SELECT student_id, date, subject_id FROM missing_list WHERE subject_id = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+                pstmt.setString(1, name);
+                try (ResultSet rs = pstmt.executeQuery()) {
+
+                    while (rs.next()) {
+                        String studentId = rs.getString("student_id");
+                        String subjectId = rs.getString("subject_id");
+
+                        Student student = getStudentById(studentId);
+                        Subject subject = getSubjectById(subjectId);
+
+                        MissingList missingList = new MissingList();
+                        missingList.setDate(rs.getDate("date"));
+                        missingList.setId(missingListList.size() + 1);
+                        missingList.setMissingStudent(List.of(student));
+                        missingList.setSubjectMissed(List.of(subject));
+
+                        missingListList.add(missingList);
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        if (conn != null && !conn.isClosed()) {
+                            conn.close();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return missingListList;
+    }
+
 
     private Student getStudentById(String studentId) {
         Student student = null;
