@@ -18,7 +18,8 @@ public class ShowMissingController {
     @GetMapping("/students/missing")
     public List<MissingList> showMissing(
             @RequestParam(value = "date", required = false) String date,
-            @RequestParam(value = "id", required = false) String id) {
+            @RequestParam(value = "id", required = false) String id
+    ) {
 
         if (date != null) {
             java.util.Date utilDate = java.sql.Date.valueOf(date);
