@@ -35,14 +35,15 @@ public class MissingListDAO implements Serializable {
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setDate(1, new java.sql.Date(date.getTime()));
                 try (ResultSet rs = pstmt.executeQuery()) {
-
                     while (rs.next()) {
+                        // Debugging
+                        System.out.println("Found record: student_id = " + rs.getString("student_id") + ", subject_id = " + rs.getString("subject_id"));
+
                         String studentId = rs.getString("student_id");
-                        String subjectId = rs.getString("subject_id");
+                        String subjectName = rs.getString("subject_id");
 
                         Student student = getStudentById(studentId);
-
-                        Subject subject = getSubjectById(subjectId);
+                        Subject subject = getSubjectById(subjectName);
 
                         MissingList missingList = new MissingList();
                         missingList.setDate(date);
@@ -52,7 +53,6 @@ public class MissingListDAO implements Serializable {
 
                         missingListList.add(missingList);
                     }
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
@@ -70,6 +70,7 @@ public class MissingListDAO implements Serializable {
         }
         return missingListList;
     }
+
 
     public List<MissingList> getMissingListById(String id) {
         List<MissingList> missingListList = new ArrayList<>();
@@ -151,24 +152,22 @@ public class MissingListDAO implements Serializable {
         return student;
     }
 
-    private Subject getSubjectById(String subjectId) {
+    private Subject getSubjectById(String subjectName) {
         Subject subject = null;
         Connection conn = connectToDb();
 
         if (conn != null) {
-            String sql = "SELECT name ,teacher FROM subject WHERE id = ?";
-            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                pstmt.setString(1, subjectId);
+            String query = "SELECT name, teacher FROM subject WHERE name = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+                pstmt.setString(1, subjectName);
                 try (ResultSet rs = pstmt.executeQuery()) {
-
                     if (rs.next()) {
                         subject = new Subject();
                         subject.setName(rs.getString("name"));
+                        subject.setTeacher(rs.getString("teacher"));
+                    } else {
+                        System.out.println("No subject found with name: " + subjectName);
                     }
-                    else{
-                        System.out.println("no student missing on that day");
-                    }
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
