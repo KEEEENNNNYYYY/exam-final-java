@@ -18,7 +18,8 @@ public class ShowMissingController {
     @GetMapping("/students/missing")
     public List<MissingList> showMissing(
             @RequestParam(value = "date", required = false) String date,
-            @RequestParam(value = "id", required = false) String id
+            @RequestParam(value = "id", required = false) String id,
+            @RequestParam(value = "name", required = false) String name
     ) {
 
         if (date != null) {
@@ -26,8 +27,11 @@ public class ShowMissingController {
             return missingService.getMissingListByDate(utilDate);
         } else if (id != null) {
             return missingService.getMissingListById(id);
-        } else {
-            throw new IllegalArgumentException("Either 'date' or 'id'");
+        }else if (name != null) {
+            return missingService.getMissingListBySubject(name);
+        }
+        else {
+            throw new IllegalArgumentException("Either 'date' or 'id' or 'name'");
         }
     }
 }
