@@ -12,3 +12,6 @@
     - show : all student
     - show : all missing by date (may contain bug)
     - show : missing by id (still show unwanted information)
+  
+# note : 
+    - DTO : data object transfert
