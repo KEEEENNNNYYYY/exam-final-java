@@ -45,6 +45,10 @@
 
     - send creation method
 
+### `OpenAPI spec`
+
+    -
+
 # Done : 
 
 ### `missing_list`
