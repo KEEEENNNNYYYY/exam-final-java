@@ -19,10 +19,12 @@ public class ShowMissingController {
     public List<MissingList> showMissing(
             @RequestParam(value = "date", required = false) String date,
             @RequestParam(value = "id", required = false) String id,
-            @RequestParam(value = "name", required = false) String name
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "all", required = false) String all
     ) {
-
-        if (date != null) {
+        if (all != null) {
+            return missingService.getAllMissingList();
+        } else if (date != null) {
             java.util.Date utilDate = java.sql.Date.valueOf(date);
             return missingService.getMissingListByDate(utilDate);
         } else if (id != null) {
@@ -31,7 +33,7 @@ public class ShowMissingController {
             return missingService.getMissingListBySubject(name);
         }
         else {
-            throw new IllegalArgumentException("Either 'date' or 'id' or 'name'");
+            throw new IllegalArgumentException("Either 'all' or 'date' or 'id' or 'name'");
         }
     }
 }
