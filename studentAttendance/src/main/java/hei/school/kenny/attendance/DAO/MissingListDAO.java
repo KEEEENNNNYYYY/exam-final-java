@@ -202,6 +202,34 @@ public class MissingListDAO implements Serializable {
         return missingListList;
     }
 
+    public void addMissingList(MissingListRequest missingListRequest) {
+        Connection conn = connectToDb();
+
+        if (conn != null) {
+            String query = "INSERT INTO missing_list (student_id, first_name, last_name, date, subject_id) VALUES (?, ?, ?, ?, ?)";
+            try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+                pstmt.setString(1, missingListRequest.getStudentId());
+                pstmt.setString(2, missingListRequest.getFirstName());
+                pstmt.setString(3, missingListRequest.getLastName());
+                pstmt.setDate(4, java.sql.Date.valueOf(missingListRequest.getDate()));
+                pstmt.setString(5, missingListRequest.getSubjectId());
+
+                pstmt.executeUpdate();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (conn != null && !conn.isClosed()) {
+                        conn.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
 
     private Student getStudentById(String studentId) {
         Student student = null;
