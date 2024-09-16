@@ -1,20 +1,14 @@
 package hei.school.kenny.attendance.DAO;
 
-import hei.school.kenny.attendance.model.Grade;
-import hei.school.kenny.attendance.model.Groupe;
-import hei.school.kenny.attendance.model.Sexe;
-import hei.school.kenny.attendance.model.Student;
+import hei.school.kenny.attendance.model.*;
 import org.springframework.stereotype.Repository;
 import java.io.Serializable;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class ShowStudentDAO implements Serializable {
+public class StudentDAO implements Serializable {
     private Connection connectToDb() {
         String url = "jdbc:postgresql://localhost:5432/studentattendance?sslmode=disable";
         String user = "postgres";
@@ -79,4 +73,49 @@ public class ShowStudentDAO implements Serializable {
         return studentList;
     }
 
+    public void addStudent(NewStudentRequest newStudentRequest) {
+        Connection conn = connectToDb();
+
+        if (conn != null) {
+            String query = "INSERT INTO student (" +
+                    "id, " +
+                    "first_name, " +
+                    "last_name, " +
+                    "birthday, " +
+                    "grades, " +
+                    "email, " +
+                    "adress, " +
+                    "sexe, " +
+                    "cored, " +
+                    "groupe" +
+                    ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+            try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+                pstmt.setString(1, newStudentRequest.getId());
+                pstmt.setString(2, newStudentRequest.getFirstName());
+                pstmt.setString(3, newStudentRequest.getLastName());
+                pstmt.setDate(4, new java.sql.Date(newStudentRequest.getBirthday().getTime()));
+                pstmt.setString(5, newStudentRequest.getGrade().toString());
+                pstmt.setString(6, newStudentRequest.getEmail());
+                pstmt.setString(7, newStudentRequest.getAdress());
+                pstmt.setString(8, newStudentRequest.getSexe().toString());
+                pstmt.setBoolean(9, newStudentRequest.isCored());
+                pstmt.setString(10, newStudentRequest.getGroupe().toString());
+
+                pstmt.executeUpdate();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (conn != null && !conn.isClosed()) {
+                        conn.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    
 }
