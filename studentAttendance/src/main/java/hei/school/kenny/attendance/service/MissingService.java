@@ -3,6 +3,8 @@ package hei.school.kenny.attendance.service;
 import hei.school.kenny.attendance.DAO.MissingListDAO;
 import hei.school.kenny.attendance.model.MissingList;
 import org.springframework.stereotype.Service;
+import hei.school.kenny.attendance.model.MissingList;
+import hei.school.kenny.attendance.model.MissingListRequest;
 
 import java.util.Date;
 import java.util.List;
@@ -29,5 +31,9 @@ public class MissingService {
 
     public List<MissingList> getMissingListBySubject(String name) {
         return missingListDAO. getMissingListBySubject(name);
+    }
+
+    public void addMissingList(MissingListRequest missingListRequest) {
+        missingListDAO.addMissingList(missingListRequest);
     }
 }
