@@ -22,4 +22,8 @@ public class MissingService {
     public List<MissingList> getMissingListById(String id) {
         return missingListDAO.getMissingListById(id);
     }
+
+    public List<MissingList> getMissingListBySubject(String name) {
+        return missingListDAO. getMissingListBySubject(name);
+    }
 }
