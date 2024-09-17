@@ -36,4 +36,10 @@ public class MissingService {
     public void addMissingList(MissingListRequest missingListRequest) {
         missingListDAO.addMissingList(missingListRequest);
     }
+
+    public void updateMissingListBySubject(String studentId, String oldSubject, String newSubject) {
+        missingListDAO.updateSubjectMissingList(studentId, oldSubject, newSubject);
+    }
+
+
 }
