@@ -5,6 +5,7 @@ public class MissingListRequest {
     private String firstName;
     private String lastName;
     private String date;
+    private String subjectId;
 
     public String getFirstName() {
         return firstName;
@@ -21,8 +22,6 @@ public class MissingListRequest {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
-    private String subjectId;
 
     public String getStudentId() {
         return studentId;
