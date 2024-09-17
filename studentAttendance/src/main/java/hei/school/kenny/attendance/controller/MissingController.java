@@ -42,4 +42,14 @@ public class MissingController {
     public void addMissing(@RequestBody MissingListRequest missingListRequest) {
         missingService.addMissingList(missingListRequest);
     }
+
+    @PutMapping("/students/missing")
+    public void updateMissingList(
+            @RequestParam(value = "studentId", required = true) String studentId,
+            @RequestParam(value = "oldValue", required = false) String oldValue,
+            @RequestParam(value = "newValue", required = false) String newValue
+    ) {
+        missingService.updateMissingListBySubject(studentId, oldValue, newValue);
+    }
+
 }
