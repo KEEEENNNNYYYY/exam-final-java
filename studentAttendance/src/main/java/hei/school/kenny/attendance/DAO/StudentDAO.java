@@ -117,5 +117,83 @@ public class StudentDAO implements Serializable {
             }
         }
     }
+
+    public List<Student> fecthStudentListByCor(boolean coredValue) {
+        List<Student> studentList = new ArrayList<>();
+        Connection conn = connectToDb();
+
+        if (conn != null) {
+            String query = "SELECT * FROM student WHERE cored = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+                pstmt.setBoolean(1, coredValue);
+                try (ResultSet rs = pstmt.executeQuery()) {
+
+                    while (rs.next()) {
+                        Student student = new Student();
+                        student.setId(rs.getString("id"));
+                        student.setFirstName(rs.getString("first_name"));
+                        student.setLastName(rs.getString("last_name"));
+                        student.setGrade(Grade.valueOf(rs.getString("grades")));
+                        student.setCored(rs.getBoolean("cored"));
+                        student.setEmail(rs.getString("email"));
+                        student.setGroupe(Groupe.valueOf(rs.getString("groupe")));
+
+                        studentList.add(student);
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        if (conn != null && !conn.isClosed()) {
+                            conn.close();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return studentList;
+    }
+
+
+
+    private Student getStudentById(String studentId) {
+        Student student = null;
+        Connection conn = connectToDb();
+
+        if (conn != null) {
+            String sql = "SELECT id, first_name, last_name FROM student WHERE id = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setString(1, studentId);
+                try (ResultSet rs = pstmt.executeQuery()) {
+
+                    if (rs.next()) {
+                        student = new Student();
+                        student.setId(rs.getString("id"));
+                        student.setFirstName(rs.getString("first_name"));
+                        student.setLastName(rs.getString("last_name"));
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        if (conn != null && !conn.isClosed()) {
+                            conn.close();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return student;
+    }
     
 }
