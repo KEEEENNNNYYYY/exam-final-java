@@ -13,11 +13,6 @@
 ### `late_list`
     
     - CRUD : 
-    - Create : new late list
-    - Read : all late
-    - Read : all late by date 
-    - Read : late by id 
-    - Read : late by course name
     - Update : change date 
     - Update : change course
     - Delete : delete user error
@@ -62,7 +57,12 @@
 
 ### `late_list`
 
-    -
+    - CRUD : 
+    - Create : new late list (still can't take table insert)
+    - Read : all late (unverified)
+    - Read : all late by date (unverified)
+    - Read : late by id (unverified)
+    - Read : late by course name(unverified)
   
   ### `student`
 
