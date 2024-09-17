@@ -25,6 +25,7 @@
 ### `student`
     
     - CRUD : 
+    - Read : by cored
     - Read : by Id
     - Read : by groupe
     - Read : by grades
