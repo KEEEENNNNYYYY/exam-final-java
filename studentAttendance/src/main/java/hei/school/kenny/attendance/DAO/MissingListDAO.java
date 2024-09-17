@@ -230,6 +230,34 @@ public class MissingListDAO implements Serializable {
         }
     }
 
+    public void updateSubjectMissingList(String studentId, String oldSubject, String newSubject) {
+        Connection conn = connectToDb();
+
+        if (conn != null) {
+            String query = "UPDATE missing_list SET subject_id = ? WHERE subject_id = ? AND student_id = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+                pstmt.setString(1, newSubject);
+                pstmt.setString(2, oldSubject);
+                pstmt.setString(3, studentId);
+
+                int rowsAffected = pstmt.executeUpdate();
+                System.out.println("Rows updated: " + rowsAffected);
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new RuntimeException("Error updating missing list", e);
+            } finally {
+                try {
+                    if (conn != null && !conn.isClosed()) {
+                        conn.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
 
     private Student getStudentById(String studentId) {
         Student student = null;
