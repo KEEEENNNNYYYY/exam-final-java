@@ -13,7 +13,6 @@
     
     - CRUD : 
     - Update : change date 
-    - Update : change course
     - Delete : delete user error
 
 ### `student`
@@ -63,7 +62,8 @@
     - Read : all late by date 
     - Read : late by id 
     - Read : late by course name
-  
+    - Update : change course
+
   ### `student`
 
     - CRUD : 
