@@ -43,4 +43,13 @@ public class LateController {
     public void addMissing(@RequestBody  List<LateListRequest> lateListRequest) {
         lateListService.addLateList(lateListRequest);
     }
+
+    @PutMapping("/students/missing")
+    public void updateMissingList(
+            @RequestParam(value = "studentId", required = true) String studentId,
+            @RequestParam(value = "oldValue", required = false) String oldValue,
+            @RequestParam(value = "newValue", required = false) String newValue
+    ) {
+        lateListService.updateLateListBySubject(studentId, oldValue, newValue);
+    }
 }
