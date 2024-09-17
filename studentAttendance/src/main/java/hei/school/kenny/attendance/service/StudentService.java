@@ -18,5 +18,10 @@ public class StudentService {
         return studentDAO.fetchAllStudent();
     }
 
+    public List<Student> getStudentListByCor(boolean coredValue) {
+        return studentDAO.fecthStudentListByCor(coredValue);
+    }
+
+
     public void addStudent(NewStudentRequest newStudentRequest){studentDAO.addStudent(newStudentRequest);}
 }
