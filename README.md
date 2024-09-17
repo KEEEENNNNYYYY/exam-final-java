@@ -49,7 +49,7 @@
 ### `missing_list`
     
     - CRUD :
-    - Create : new missing list (still waiting for debugging to work)
+    - Create : new missing list (still can't take table insert)
     - read : all missing
     - read : all missing by date (may contain bug)
     - read : missing by id (still show unwanted information)
@@ -58,7 +58,7 @@
 ### `late_list`
 
     - CRUD : 
-    - Create : new late list (still can't take table insert)
+    - Create : new late list 
     - Read : all late (unverified)
     - Read : all late by date (unverified)
     - Read : late by id (unverified)
