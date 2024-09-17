@@ -209,7 +209,6 @@ public class LateListDAO implements Serializable {
                     pstmt.setString(2, request.getFirstName());
                     pstmt.setString(3, request.getLastName());
 
-                    
                     Timestamp timestamp = Timestamp.valueOf(request.getDate());
                     pstmt.setTimestamp(4, timestamp);
 
