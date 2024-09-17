@@ -35,4 +35,8 @@ public class LateListService {
     public void addLateList(List<LateListRequest> lateListRequests) {
         LateListDAO.addLateList(lateListRequests);
     }
+
+    public void updateLateListBySubject(String studentId, String oldSubject, String newSubject) {
+        LateListDAO.updateSubjectLateList(studentId, oldSubject, newSubject);
+    }
 }
