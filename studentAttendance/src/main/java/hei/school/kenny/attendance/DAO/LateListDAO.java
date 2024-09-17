@@ -209,17 +209,18 @@ public class LateListDAO implements Serializable {
                     pstmt.setString(2, request.getFirstName());
                     pstmt.setString(3, request.getLastName());
 
-                    // Convert String date to Timestamp
+                    
                     Timestamp timestamp = Timestamp.valueOf(request.getDate());
                     pstmt.setTimestamp(4, timestamp);
 
                     pstmt.setString(5, request.getSubjectId());
 
-                    pstmt.addBatch();  // Add to batch
+                    pstmt.addBatch();
                 }
-                pstmt.executeBatch();  // Execute batch update
+                pstmt.executeBatch();
 
             } catch (SQLException e) {
+                System.err.println("SQL Exception: " + e.getMessage());
                 e.printStackTrace();
             } finally {
                 try {
@@ -227,11 +228,15 @@ public class LateListDAO implements Serializable {
                         conn.close();
                     }
                 } catch (SQLException e) {
+                    System.err.println("SQL Exception on close: " + e.getMessage());
                     e.printStackTrace();
                 }
             }
+        } else {
+            System.err.println("Failed to connect to the database.");
         }
     }
+
 
     private Student getStudentById(String studentId) {
         Student student = null;
