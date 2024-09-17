@@ -59,10 +59,10 @@
 
     - CRUD : 
     - Create : new late list 
-    - Read : all late (unverified)
-    - Read : all late by date (unverified)
-    - Read : late by id (unverified)
-    - Read : late by course name(unverified)
+    - Read : all late 
+    - Read : all late by date 
+    - Read : late by id 
+    - Read : late by course name
   
   ### `student`
 
