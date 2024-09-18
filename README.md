@@ -18,6 +18,11 @@
     - Update : change date 
     - Delete : delete user error
 
+### `Vue`
+
+    - student presencies
+    - Read : cored student
+
 ### `student`
     
     - CRUD : 
