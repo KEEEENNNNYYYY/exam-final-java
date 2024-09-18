@@ -41,5 +41,9 @@ public class MissingService {
         missingListDAO.updateSubjectMissingList(studentId, oldSubject, newSubject);
     }
 
+    public void deleteStudentOnMissingList(String subject_id, String student_id) {
+        missingListDAO.deleteStudentOnMissingList(subject_id, student_id);
+    }
+
 
 }
