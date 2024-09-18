@@ -5,13 +5,16 @@
 
 ### `missing_list`
 
-    - CRUD : 
+    - Read : missing time per students
+    - justification for missing
+    - COR function for 3 unjustified missing
     - Update : change date 
 
 
 ### `late_list`
     
     - CRUD : 
+    - Read/Create : late times
     - Update : change date 
     - Delete : delete user error
 
