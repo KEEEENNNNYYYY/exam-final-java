@@ -258,6 +258,33 @@ public class MissingListDAO implements Serializable {
         }
     }
 
+    public void deleteStudentOnMissingList(String subject_id, String student_id) {
+        Connection conn = connectToDb();
+
+        if (conn != null) {
+            String query = "DELETE FROM missing_list WHERE subject_id = ? AND student_id = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+                pstmt.setString(1, subject_id);
+                pstmt.setString(2, student_id);
+
+                int rowsAffected = pstmt.executeUpdate();
+                System.out.println("Rows deleted: " + rowsAffected);
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new RuntimeException("Error deleting from missing list", e);
+            } finally {
+                try {
+                    if (conn != null && !conn.isClosed()) {
+                        conn.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
 
     private Student getStudentById(String studentId) {
         Student student = null;

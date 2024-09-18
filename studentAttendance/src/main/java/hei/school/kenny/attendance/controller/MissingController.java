@@ -43,7 +43,7 @@ public class MissingController {
         missingService.addMissingList(missingListRequest);
     }
 
-    @PutMapping("/students/missing")
+    @PutMapping("/students/missing/change")
     public void updateMissingList(
             @RequestParam(value = "studentId", required = true) String studentId,
             @RequestParam(value = "oldValue", required = false) String oldValue,
@@ -52,4 +52,11 @@ public class MissingController {
         missingService.updateMissingListBySubject(studentId, oldValue, newValue);
     }
 
+    @DeleteMapping("/students/missing/del")
+    public void updateMissingList(
+            @RequestParam(value = "subject_id", required = true) String subject_id,
+            @RequestParam(value = "student_id", required = true) String student_id
+    ) {
+        missingService.deleteStudentOnMissingList(subject_id, student_id);
+    }
 }
