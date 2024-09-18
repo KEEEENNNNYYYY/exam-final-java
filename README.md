@@ -7,7 +7,7 @@
 
     - CRUD : 
     - Update : change date 
-    - Delete : delete user error
+
 
 ### `late_list`
     
@@ -53,6 +53,7 @@
     - read : missing by id (still show unwanted information)
     - read : missing by course name
     - Update : change course
+    - Delete : delete user error
 
 ### `late_list`
 
