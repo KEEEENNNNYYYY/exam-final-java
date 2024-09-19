@@ -258,6 +258,34 @@ public class MissingListDAO implements Serializable {
         }
     }
 
+
+    public void justifyMissing(String studentId, String subject, Date date) {
+        try (Connection conn = connectToDb()) {
+            if (conn != null) {
+                String query = "UPDATE missing_list SET justified = true WHERE student_id = ? AND subject_id = ? AND date = ?";
+                try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+                    pstmt.setString(1, studentId);
+                    pstmt.setString(2, subject);
+                    pstmt.setDate(3, new java.sql.Date(date.getTime()));
+
+                    int rowsAffected = pstmt.executeUpdate();
+                    if (rowsAffected == 0) {
+                        throw new RuntimeException("No records updated. Check studentId, subject, or date.");
+                    }
+                } catch (SQLException e) {
+                    throw new RuntimeException("Error updating missing list: " + e.getMessage(), e);
+                }
+            } else {
+                throw new RuntimeException("Failed to connect to the database.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
     public void deleteStudentOnMissingList(String subject_id, String student_id) {
         Connection conn = connectToDb();
 
