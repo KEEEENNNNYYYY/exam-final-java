@@ -46,14 +46,24 @@ public class MissingController {
         missingService.addMissingList(missingListRequest);
     }
 
-    @PutMapping("/students/missing/change")
-    public void updateMissingList(
+    @PutMapping("/students/missing/change/course")
+    public void updateMissingListBySubject(
             @RequestParam(value = "studentId", required = true) String studentId,
-            @RequestParam(value = "oldValue", required = false) String oldValue,
-            @RequestParam(value = "newValue", required = false) String newValue
+            @RequestParam(value = "oldCours", required = false) String oldCours,
+            @RequestParam(value = "newCours", required = false) String newCours
     ) {
-        missingService.updateMissingListBySubject(studentId, oldValue, newValue);
+        missingService.updateMissingListBySubject(studentId, oldCours, newCours);
     }
+
+    @PutMapping("/students/missing/change/date")
+    public void updateMissingListByDate(
+            @RequestParam(value = "studentId", required = true) String studentId,
+            @RequestParam(value = "oldDate", required = false) String oldDate,
+            @RequestParam(value = "newDate", required = false) String newDate
+    ) {
+        missingService.updateSubjectMissingDate(studentId, oldDate, newDate);
+    }
+
 
     @PutMapping("/students/missing/justify")
     public void updateJustification(
