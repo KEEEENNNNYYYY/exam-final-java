@@ -5,11 +5,7 @@
 
 ### `missing_list`
 
-    - Read : missing time per students
-    - justification for missing
     - COR function for 3 unjustified missing
-    - Update : change date 
-
 
 ### `late_list`
     
@@ -32,6 +28,7 @@
     - Read : by query search
     - Update : Update student information.
     - Delete : Delete a student.
+    - Read : missing time per students
 
 ### `subject`
 
@@ -55,9 +52,11 @@
 ### `missing_list`
     
     - CRUD :
-    - Create : new missing list (still can't take table insert)
+    - Update : change date 
+    - justification for missing
+    - Create : new missing list
     - read : all missing
-    - read : all missing by date (may contain bug)
+    - read : all missing by date 
     - read : missing by id (still show unwanted information)
     - read : missing by course name
     - Update : change course
