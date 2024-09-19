@@ -258,6 +258,37 @@ public class MissingListDAO implements Serializable {
         }
     }
 
+    public void updateSubjectMissingDate(String studentId, String oldDate, String newDate) {
+        Connection conn = connectToDb();
+
+        if (conn != null) {
+            String query = "UPDATE missing_list SET date = ? WHERE date = ? AND student_id = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+                Timestamp oldDateTimestamp = Timestamp.valueOf(oldDate + " 00:00:00");
+                Timestamp newDateTimestamp = Timestamp.valueOf(newDate + " 00:00:00");
+
+                pstmt.setTimestamp(1, newDateTimestamp);
+                pstmt.setTimestamp(2, oldDateTimestamp);
+                pstmt.setString(3, studentId);
+
+                int rowsAffected = pstmt.executeUpdate();
+                System.out.println("Rows updated: " + rowsAffected);
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new RuntimeException("Error updating missing list", e);
+            } finally {
+                try {
+                    if (conn != null && !conn.isClosed()) {
+                        conn.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
 
     public void justifyMissing(String studentId, String subject, Date date) {
         try (Connection conn = connectToDb()) {
@@ -282,9 +313,6 @@ public class MissingListDAO implements Serializable {
             e.printStackTrace();
         }
     }
-
-
-
 
     public void deleteStudentOnMissingList(String subject_id, String student_id) {
         Connection conn = connectToDb();
@@ -312,6 +340,7 @@ public class MissingListDAO implements Serializable {
             }
         }
     }
+
 
 
     private Student getStudentById(String studentId) {
