@@ -41,6 +41,10 @@ public class MissingService {
         missingListDAO.updateSubjectMissingList(studentId, oldSubject, newSubject);
     }
 
+    public void updateSubjectMissingDate(String studentId, String oldDate, String newDate) {
+        missingListDAO.updateSubjectMissingDate(studentId, oldDate, newDate);
+    }
+
     public void justifyMissing(String studentId, String subject, Date date) {
         missingListDAO.justifyMissing(studentId, subject, date);
     }
