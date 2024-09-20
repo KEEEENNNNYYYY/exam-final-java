@@ -206,29 +206,69 @@ public class MissingListDAO implements Serializable {
         Connection conn = connectToDb();
 
         if (conn != null) {
-            String query = "INSERT INTO missing_list (student_id, first_name, last_name, date, subject_id) VALUES (?, ?, ?, ?, ?)";
-            try (PreparedStatement pstmt = conn.prepareStatement(query)) {
-                pstmt.setString(1, missingListRequest.getStudentId());
-                pstmt.setString(2, missingListRequest.getFirstName());
-                pstmt.setString(3, missingListRequest.getLastName());
-                pstmt.setDate(4, java.sql.Date.valueOf(missingListRequest.getDate()));
-                pstmt.setString(5, missingListRequest.getSubjectId());
+            try {
+                // Désactiver l'auto-commit pour gérer la transaction manuellement
+                conn.setAutoCommit(false);
 
-                pstmt.executeUpdate();
+                // Requête pour insérer un nouvel enregistrement dans missing_list
+                String insertQuery = "INSERT INTO missing_list (student_id, first_name, last_name, date, subject_id, justified) VALUES (?, ?, ?, ?, ?, false)";
+                try (PreparedStatement pstmt = conn.prepareStatement(insertQuery)) {
+                    pstmt.setString(1, missingListRequest.getStudentId());
+                    pstmt.setString(2, missingListRequest.getFirstName());
+                    pstmt.setString(3, missingListRequest.getLastName());
+                    pstmt.setDate(4, java.sql.Date.valueOf(missingListRequest.getDate()));
+                    pstmt.setString(5, missingListRequest.getSubjectId());
 
+                    // Exécution de l'insertion
+                    pstmt.executeUpdate();
+                }
+
+                // Requête pour vérifier le compteur d'absences injustifiées
+                String countQuery = "SELECT unjustified_missing_count FROM student WHERE id = ?";
+                try (PreparedStatement countStmt = conn.prepareStatement(countQuery)) {
+                    countStmt.setString(1, missingListRequest.getStudentId());
+                    ResultSet rs = countStmt.executeQuery();
+
+                    int unjustifiedCount = 0;
+                    if (rs.next()) {
+                        unjustifiedCount = rs.getInt("unjustified_missing_count");
+                    }
+
+                    // Vérifiez si le compteur atteint 3 et mettez à jour si nécessaire
+                    if (unjustifiedCount >= 3) {
+                        String updateQuery = "UPDATE student SET cored = true WHERE id = ?";
+                        try (PreparedStatement updateStmt = conn.prepareStatement(updateQuery)) {
+                            updateStmt.setString(1, missingListRequest.getStudentId());
+                            updateStmt.executeUpdate();
+                        }
+                    }
+                }
+
+                // Validez la transaction
+                conn.commit();
             } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
+                // En cas d'erreur, annulez la transaction
                 try {
-                    if (conn != null && !conn.isClosed()) {
+                    conn.rollback();
+                } catch (SQLException rollbackEx) {
+                    throw new RuntimeException("Erreur lors du rollback : " + rollbackEx.getMessage(), rollbackEx);
+                }
+                throw new RuntimeException("Erreur lors de l'insertion : " + e.getMessage(), e);
+            } finally {
+                // Fermez la connexion
+                try {
+                    if (conn != null) {
                         conn.close();
                     }
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                } catch (SQLException closeEx) {
+                    throw new RuntimeException("Erreur lors de la fermeture de la connexion : " + closeEx.getMessage(), closeEx);
                 }
             }
+        } else {
+            throw new RuntimeException("Erreur de connexion à la base de données.");
         }
     }
+
 
     public void updateSubjectMissingList(String studentId, String oldSubject, String newSubject) {
         Connection conn = connectToDb();
@@ -289,7 +329,6 @@ public class MissingListDAO implements Serializable {
         }
     }
 
-
     public void justifyMissing(String studentId, String subject, Date date) {
         try (Connection conn = connectToDb()) {
             if (conn != null) {
@@ -314,20 +353,53 @@ public class MissingListDAO implements Serializable {
         }
     }
 
-    public void deleteStudentOnMissingList(String subject_id, String student_id) {
+    public void deleteStudentOnMissingList(String subjectId, String studentId, String date) {
         Connection conn = connectToDb();
 
         if (conn != null) {
-            String query = "DELETE FROM missing_list WHERE subject_id = ? AND student_id = ?";
-            try (PreparedStatement pstmt = conn.prepareStatement(query)) {
-                pstmt.setString(1, subject_id);
-                pstmt.setString(2, student_id);
+            try {
+                conn.setAutoCommit(false);
 
-                int rowsAffected = pstmt.executeUpdate();
-                System.out.println("Rows deleted: " + rowsAffected);
+                String checkQuery = "SELECT justified FROM missing_list WHERE subject_id = ? AND student_id = ? AND date = ?";
+                try (PreparedStatement checkStmt = conn.prepareStatement(checkQuery)) {
+                    checkStmt.setString(1, subjectId);
+                    checkStmt.setString(2, studentId);
+                    checkStmt.setDate(3, java.sql.Date.valueOf(date));
+                    ResultSet rs = checkStmt.executeQuery();
 
+                    boolean justified = false;
+                    if (rs.next()) {
+                        justified = rs.getBoolean("justified");
+                    }
+
+                    String deleteQuery = "DELETE FROM missing_list WHERE subject_id = ? AND student_id = ? AND date = ?";
+                    try (PreparedStatement deleteStmt = conn.prepareStatement(deleteQuery)) {
+                        deleteStmt.setString(1, subjectId);
+                        deleteStmt.setString(2, studentId);
+                        deleteStmt.setDate(3, java.sql.Date.valueOf(date));
+                        int rowsAffected = deleteStmt.executeUpdate();
+                        System.out.println("Rows deleted: " + rowsAffected);
+
+                        if (!justified) {
+                            String updateQuery = "UPDATE student SET unjustified_missing_count = unjustified_missing_count - 1 WHERE id = ?";
+                            try (PreparedStatement updateStmt = conn.prepareStatement(updateQuery)) {
+                                updateStmt.setString(1, studentId);
+                                updateStmt.executeUpdate();
+                            }
+                        }
+                    }
+                }
+
+                conn.commit();
             } catch (SQLException e) {
                 e.printStackTrace();
+                try {
+                    if (conn != null) {
+                        conn.rollback();
+                    }
+                } catch (SQLException rollbackEx) {
+                    rollbackEx.printStackTrace();
+                }
                 throw new RuntimeException("Error deleting from missing list", e);
             } finally {
                 try {
@@ -340,6 +412,8 @@ public class MissingListDAO implements Serializable {
             }
         }
     }
+
+
 
 
 
