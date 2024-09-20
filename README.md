@@ -5,7 +5,7 @@
 
 ### `missing_list`
 
-    - COR function for 3 unjustified missing
+    - COR function for 3 unjustified missing 
 
 ### `late_list`
     
@@ -22,13 +22,15 @@
 ### `student`
     
     - CRUD : 
+    - need fix : count unjustified missing 
     - Read : by Id
     - Read : by groupe
     - Read : by grades
+    - Read : groupes
     - Read : by query search
     - Update : Update student information.
     - Delete : Delete a student.
-    - Read : missing time per students
+    - Read : by unjustified missing time per students
 
 ### `subject`
 
