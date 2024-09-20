@@ -80,13 +80,13 @@ public class MissingController {
         }
     }
 
-
-
     @DeleteMapping("/students/missing/del")
     public void updateMissingList(
-            @RequestParam(value = "subject_id", required = true) String subject_id,
-            @RequestParam(value = "student_id", required = true) String student_id
+            @RequestParam(value = "subject_id", required = true) String subjectId,
+            @RequestParam(value = "student_id", required = true) String studentId,
+            @RequestParam(value = "date", required = true) String date
     ) {
-        missingService.deleteStudentOnMissingList(subject_id, student_id);
+        missingService.deleteStudentOnMissingList(subjectId, studentId, date);
     }
+
 }
