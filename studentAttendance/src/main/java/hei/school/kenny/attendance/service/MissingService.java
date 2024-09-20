@@ -49,9 +49,8 @@ public class MissingService {
         missingListDAO.justifyMissing(studentId, subject, date);
     }
 
-    public void deleteStudentOnMissingList(String subject_id, String student_id) {
-        missingListDAO.deleteStudentOnMissingList(subject_id, student_id);
+    public void deleteStudentOnMissingList(String subjectId, String studentId, String date) {
+        missingListDAO.deleteStudentOnMissingList(subjectId, studentId, date);
     }
-
 
 }
