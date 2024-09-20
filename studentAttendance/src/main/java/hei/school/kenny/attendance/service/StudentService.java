@@ -22,6 +22,5 @@ public class StudentService {
         return studentDAO.fecthStudentListByCor(coredValue);
     }
 
-
     public void addStudent(NewStudentRequest newStudentRequest){studentDAO.addStudent(newStudentRequest);}
 }
