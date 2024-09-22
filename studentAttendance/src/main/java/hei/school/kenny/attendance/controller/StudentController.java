@@ -34,6 +34,12 @@ public class StudentController {
         }
     }
 
+    @GetMapping("/students/list")
+    public Student showStudent(
+            @RequestParam(value = "id", required = false) String studentId
+    ) {
+            return studentService.getStudentById(studentId);
+    }
 
     @PostMapping("/student/add")
     public void addStudent(@RequestBody NewStudentRequest newStudentRequest) {
