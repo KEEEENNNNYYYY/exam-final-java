@@ -12,7 +12,6 @@
 ### `student`
     
     - CRUD : 
-    - Read : by grades
     - Read : groupes
     - Read : by query search
     - Update : Update student information.
@@ -56,6 +55,7 @@
 
     - CRUD : 
     - Create : student
+    - Read : by grades
     - Read : by groupe
     - Read : by Id
     - Read : by cored
