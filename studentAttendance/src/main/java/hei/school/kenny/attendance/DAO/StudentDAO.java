@@ -159,9 +159,7 @@ public class StudentDAO implements Serializable {
         return studentList;
     }
 
-
-
-    private Student getStudentById(String studentId) {
+    public Student getStudentById(String studentId) {
         Student student = null;
         Connection conn = connectToDb();
 
