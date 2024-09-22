@@ -1,7 +1,5 @@
 package hei.school.kenny.attendance.controller;
 
-import hei.school.kenny.attendance.model.MissingList;
-import hei.school.kenny.attendance.model.MissingListRequest;
 import hei.school.kenny.attendance.model.NewStudentRequest;
 import hei.school.kenny.attendance.model.Student;
 import hei.school.kenny.attendance.service.StudentService;
@@ -53,11 +51,19 @@ public class StudentController {
     }
 
     @PutMapping("/students/missing/state")
-    public void updateMissingListByDate(
+    public void updateState(
             @RequestParam(value = "value", required = true) String value,
             @RequestParam(value = "id", required = false) String id
     ) {
         studentService.updateState( value, id);
     }
-    
+
+    @PutMapping("/students/missing/change")
+    public void updateFirstName(
+            @RequestParam(value = "firstName", required = true) String firstName,
+            @RequestParam(value = "id", required = false) String id
+    ) {
+        studentService.updateFirstName( firstName, id);
+    }
+
 }
