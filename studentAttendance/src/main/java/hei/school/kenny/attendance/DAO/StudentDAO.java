@@ -440,4 +440,41 @@ public class StudentDAO implements Serializable {
         }
     }
 
+    public void updateBirthday(String newBirthday, String id) {
+        Connection conn = connectToDb();
+
+        if (conn != null) {
+            String query = "UPDATE student SET birthday = ? WHERE id = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+                Timestamp newDateTimestamp = Timestamp.valueOf(newBirthday + " 00:00:00");
+                pstmt.setTimestamp(1, newDateTimestamp);
+                pstmt.setString(2, id);
+
+                int rowsAffected = pstmt.executeUpdate();
+                System.out.println("Rows updated: " + rowsAffected);
+
+                if (rowsAffected == 0) {
+                    System.out.println("Aucun étudiant trouvé avec l'ID : " + id);
+                } else {
+                    System.out.println("Date de naissance mise à jour pour l'étudiant ID : " + id);
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new RuntimeException("Erreur lors de la mise à jour de la date de naissance", e);
+            } finally {
+                try {
+                    if (conn != null && !conn.isClosed()) {
+                        conn.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            System.out.println("Échec de la connexion à la base de données.");
+        }
+    }
+
+
 }
