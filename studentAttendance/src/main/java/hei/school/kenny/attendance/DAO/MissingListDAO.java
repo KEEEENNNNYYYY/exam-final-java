@@ -335,7 +335,13 @@ public class MissingListDAO implements Serializable {
                     pstmt.setDate(3, new java.sql.Date(date.getTime()));
 
                     int rowsAffected = pstmt.executeUpdate();
-                    if (rowsAffected == 0) {
+                    if (rowsAffected > 0) {
+                        String updateQuery = "UPDATE student SET unjustified_missing_count = unjustified_missing_count - 1 WHERE id = ?";
+                        try (PreparedStatement updateStmt = conn.prepareStatement(updateQuery)) {
+                            updateStmt.setString(1, studentId);
+                            updateStmt.executeUpdate();
+                        }
+                    } else {
                         throw new RuntimeException("No records updated. Check studentId, subject, or date.");
                     }
                 } catch (SQLException e) {
