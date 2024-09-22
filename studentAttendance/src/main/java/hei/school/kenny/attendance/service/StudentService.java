@@ -53,5 +53,9 @@ public class StudentService {
         studentDAO.updateGrades( newGrades,id) ;
     }
 
+    public void  updateGroupes(String newGroupes,String id)   {
+        studentDAO.updateGroupes( newGroupes, id)  ;
+    }
+
     public void addStudent(NewStudentRequest newStudentRequest){studentDAO.addStudent(newStudentRequest);}
 }
