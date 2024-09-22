@@ -49,5 +49,9 @@ public class StudentService {
         studentDAO.updateEmail( newEmail, id);
     }
 
+    public void updateGrades(String newGrades,String id)  {
+        studentDAO.updateGrades( newGrades,id) ;
+    }
+
     public void addStudent(NewStudentRequest newStudentRequest){studentDAO.addStudent(newStudentRequest);}
 }
