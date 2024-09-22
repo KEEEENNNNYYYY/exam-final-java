@@ -12,8 +12,6 @@
 ### `student`
     
     - CRUD : 
-    
-    - Read : by groupe
     - Read : by grades
     - Read : groupes
     - Read : by query search
@@ -54,20 +52,11 @@
     - Update : change course
     - Delete : delete user error
 
-### `late_list`
-
-    - CRUD : 
-    - Create : new late list 
-    - Read : all late 
-    - Read : all late by date 
-    - Read : late by id 
-    - Read : late by course name
-    - Update : change course
-
   ### `student`
 
     - CRUD : 
     - Create : student
+    - Read : by groupe
     - Read : by Id
     - Read : by cored
     - Read : all student
