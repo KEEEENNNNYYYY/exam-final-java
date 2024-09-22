@@ -25,10 +25,13 @@ public class StudentController {
 
     @GetMapping("/students/search")
     public List<Student> showCored(
-            @RequestParam(value = "cored", required = false) Boolean cored
+            @RequestParam(value = "cored", required = false) Boolean cored,
+            @RequestParam(value = "groupe", required = false) String groupe
     ) {
         if (cored != null) {
             return studentService.getStudentListByCor(cored);
+        } else if (groupe != null) {
+            return  studentService.getStudentByGroupe(groupe);
         } else {
             throw new IllegalArgumentException("Parameter 'cored' must be provided");
         }
