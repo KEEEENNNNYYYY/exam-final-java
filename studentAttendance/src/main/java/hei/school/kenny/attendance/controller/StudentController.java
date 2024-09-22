@@ -62,12 +62,15 @@ public class StudentController {
     public void updateFirstName(
             @RequestParam(value = "firstName", required = false) String firstName,
             @RequestParam(value = "lastName", required = false) String lastName,
+            @RequestParam(value = "newEmail", required = false) String newEmail,
             @RequestParam(value = "id", required = true) String id
     ) {
         if (firstName !=null){
             studentService.updateFirstName( firstName, id);
         } else if (lastName != null) {
             studentService.updateLastName( lastName, id);
+        } else if (newEmail != null) {
+            studentService.updateEmail(newEmail, id);
         }
     }
 
