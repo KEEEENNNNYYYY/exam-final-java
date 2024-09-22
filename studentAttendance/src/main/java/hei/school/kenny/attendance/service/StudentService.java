@@ -57,5 +57,9 @@ public class StudentService {
         studentDAO.updateGroupes( newGroupes, id)  ;
     }
 
+    public void  updateBirthday(String newBirthday, String id)   {
+        studentDAO.updateBirthday( newBirthday,id) ;
+    }
+
     public void addStudent(NewStudentRequest newStudentRequest){studentDAO.addStudent(newStudentRequest);}
 }
