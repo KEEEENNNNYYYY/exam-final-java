@@ -33,5 +33,9 @@ public class StudentService {
         return (studentDAO.getStudentByGrades(studentGrades));
     }
 
+    public void updateState(String value,String id) {
+        studentDAO.updateState( value, id);
+    }
+
     public void addStudent(NewStudentRequest newStudentRequest){studentDAO.addStudent(newStudentRequest);}
 }
