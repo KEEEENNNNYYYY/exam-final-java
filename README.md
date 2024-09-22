@@ -13,7 +13,6 @@
     
     - CRUD : 
     - Read : by query search
-    - Update : Last Name
     - Update : Birthday 
     - Update : email
     - Update : Grades
@@ -66,6 +65,7 @@
     - Read : cored student
     - Update : State
     - Update : First name
+    - Update : Last Name
 
   ### `subject`
 
