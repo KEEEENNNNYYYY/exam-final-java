@@ -207,10 +207,8 @@ public class MissingListDAO implements Serializable {
 
         if (conn != null) {
             try {
-                // Désactiver l'auto-commit pour gérer la transaction manuellement
                 conn.setAutoCommit(false);
 
-                // Requête pour insérer un nouvel enregistrement dans missing_list
                 String insertQuery = "INSERT INTO missing_list (student_id, first_name, last_name, date, subject_id, justified) VALUES (?, ?, ?, ?, ?, false)";
                 try (PreparedStatement pstmt = conn.prepareStatement(insertQuery)) {
                     pstmt.setString(1, missingListRequest.getStudentId());
@@ -219,35 +217,35 @@ public class MissingListDAO implements Serializable {
                     pstmt.setDate(4, java.sql.Date.valueOf(missingListRequest.getDate()));
                     pstmt.setString(5, missingListRequest.getSubjectId());
 
-                    // Exécution de l'insertion
                     pstmt.executeUpdate();
                 }
 
-                // Requête pour vérifier le compteur d'absences injustifiées
+                String updateCountQuery = "UPDATE student SET unjustified_missing_count = unjustified_missing_count + 1 WHERE id = ?";
+                try (PreparedStatement updateCountStmt = conn.prepareStatement(updateCountQuery)) {
+                    updateCountStmt.setString(1, missingListRequest.getStudentId());
+                    updateCountStmt.executeUpdate();
+                }
+
                 String countQuery = "SELECT unjustified_missing_count FROM student WHERE id = ?";
                 try (PreparedStatement countStmt = conn.prepareStatement(countQuery)) {
                     countStmt.setString(1, missingListRequest.getStudentId());
                     ResultSet rs = countStmt.executeQuery();
 
-                    int unjustifiedCount = 0;
                     if (rs.next()) {
-                        unjustifiedCount = rs.getInt("unjustified_missing_count");
-                    }
+                        int unjustifiedCount = rs.getInt("unjustified_missing_count");
 
-                    // Vérifiez si le compteur atteint 3 et mettez à jour si nécessaire
-                    if (unjustifiedCount >= 3) {
-                        String updateQuery = "UPDATE student SET cored = true WHERE id = ?";
-                        try (PreparedStatement updateStmt = conn.prepareStatement(updateQuery)) {
-                            updateStmt.setString(1, missingListRequest.getStudentId());
-                            updateStmt.executeUpdate();
+                        if (unjustifiedCount >= 3) {
+                            String updateQuery = "UPDATE student SET cored = true WHERE id = ?";
+                            try (PreparedStatement updateStmt = conn.prepareStatement(updateQuery)) {
+                                updateStmt.setString(1, missingListRequest.getStudentId());
+                                updateStmt.executeUpdate();
+                            }
                         }
                     }
                 }
 
-                // Validez la transaction
                 conn.commit();
             } catch (SQLException e) {
-                // En cas d'erreur, annulez la transaction
                 try {
                     conn.rollback();
                 } catch (SQLException rollbackEx) {
@@ -255,7 +253,6 @@ public class MissingListDAO implements Serializable {
                 }
                 throw new RuntimeException("Erreur lors de l'insertion : " + e.getMessage(), e);
             } finally {
-                // Fermez la connexion
                 try {
                     if (conn != null) {
                         conn.close();
@@ -268,7 +265,6 @@ public class MissingListDAO implements Serializable {
             throw new RuntimeException("Erreur de connexion à la base de données.");
         }
     }
-
 
     public void updateSubjectMissingList(String studentId, String oldSubject, String newSubject) {
         Connection conn = connectToDb();
@@ -412,10 +408,6 @@ public class MissingListDAO implements Serializable {
             }
         }
     }
-
-
-
-
 
     private Student getStudentById(String studentId) {
         Student student = null;
