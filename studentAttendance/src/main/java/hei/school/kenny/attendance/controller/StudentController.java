@@ -65,6 +65,7 @@ public class StudentController {
             @RequestParam(value = "newEmail", required = false) String newEmail,
             @RequestParam(value = "newGrades", required = false) String newGrades,
             @RequestParam(value = "newGroupes", required = false) String newGroupes,
+            @RequestParam(value = "newBirthday", required = false) String newBirthday,
             @RequestParam(value = "id", required = true) String id
     ) {
         if (firstName !=null){
@@ -77,6 +78,8 @@ public class StudentController {
             studentService.updateGrades(newGrades, id);
         } else if (newGroupes != null) {
             studentService.updateGroupes(newGroupes, id);
+        } else if (newBirthday != null) {
+            studentService.updateBirthday(newBirthday,id);
         }
     }
 
