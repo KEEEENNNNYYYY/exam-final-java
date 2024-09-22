@@ -60,10 +60,15 @@ public class StudentController {
 
     @PutMapping("/students/missing/change")
     public void updateFirstName(
-            @RequestParam(value = "firstName", required = true) String firstName,
-            @RequestParam(value = "id", required = false) String id
+            @RequestParam(value = "firstName", required = false) String firstName,
+            @RequestParam(value = "lastName", required = false) String lastName,
+            @RequestParam(value = "id", required = true) String id
     ) {
-        studentService.updateFirstName( firstName, id);
+        if (firstName !=null){
+            studentService.updateFirstName( firstName, id);
+        } else if (lastName != null) {
+            studentService.updateLastName( lastName, id);
+        }
     }
 
 }
