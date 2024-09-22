@@ -13,7 +13,6 @@
     
     - CRUD : 
     - Read : by query search
-    - Update : Birthday 
     - Delete : Delete a student.
     - Read : by unjustified missing time per students
 
@@ -66,6 +65,7 @@
     - Update : email
     - Update : Grades
     - Update : groupe
+    - Update : Birthday 
 
   ### `subject`
 
