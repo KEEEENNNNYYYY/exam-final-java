@@ -51,5 +51,13 @@ public class StudentController {
     public void addStudent(@RequestBody NewStudentRequest newStudentRequest) {
         studentService.addStudent(newStudentRequest);
     }
+
+    @PutMapping("/students/missing/state")
+    public void updateMissingListByDate(
+            @RequestParam(value = "value", required = true) String value,
+            @RequestParam(value = "id", required = false) String id
+    ) {
+        studentService.updateState( value, id);
+    }
     
 }
