@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import static hei.school.kenny.attendance.model.state.IN;
 
 @Repository
 public class StudentDAO implements Serializable {
@@ -77,6 +78,7 @@ public class StudentDAO implements Serializable {
         Connection conn = connectToDb();
 
         if (conn != null) {
+            state in = IN;
             String query = "INSERT INTO student (" +
                     "id, " +
                     "first_name, " +
@@ -274,5 +276,32 @@ public class StudentDAO implements Serializable {
             }
         }
         return studentList;
+    }
+
+    public void updateState(String value,String id) {
+        Connection conn = connectToDb();
+
+        if (conn != null) {
+            String query = "UPDATE student SET state = ? WHERE id = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+                pstmt.setString(1, value);
+                pstmt.setString(2, id);
+
+                int rowsAffected = pstmt.executeUpdate();
+                System.out.println("Rows updated: " + rowsAffected);
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new RuntimeException("Error updating missing list", e);
+            } finally {
+                try {
+                    if (conn != null && !conn.isClosed()) {
+                        conn.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }
