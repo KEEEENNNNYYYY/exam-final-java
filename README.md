@@ -12,9 +12,13 @@
 ### `student`
     
     - CRUD : 
-    - Read : groupes
     - Read : by query search
-    - Update : Update student information.
+    - Update : First name
+    - Update : Last Name
+    - Update : Birthday 
+    - Update : email
+    - Update : Grades
+    - Update : groupe
     - Delete : Delete a student.
     - Read : by unjustified missing time per students
 
@@ -61,6 +65,7 @@
     - Read : by cored
     - Read : all student
     - Read : cored student
+    - Update : State
 
   ### `subject`
 
