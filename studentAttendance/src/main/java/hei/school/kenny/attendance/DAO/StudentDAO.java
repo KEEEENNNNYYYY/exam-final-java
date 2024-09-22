@@ -304,4 +304,32 @@ public class StudentDAO implements Serializable {
             }
         }
     }
+
+    public void updateFirstName(String firstName,String id) {
+        Connection conn = connectToDb();
+
+        if (conn != null) {
+            String query = "UPDATE student SET first_name = ? WHERE id = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+                pstmt.setString(1, firstName);
+                pstmt.setString(2, id);
+
+                int rowsAffected = pstmt.executeUpdate();
+                System.out.println("Rows updated: " + rowsAffected);
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new RuntimeException("Error updating missing list", e);
+            } finally {
+                try {
+                    if (conn != null && !conn.isClosed()) {
+                        conn.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
 }
