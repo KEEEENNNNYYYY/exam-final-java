@@ -41,5 +41,9 @@ public class StudentService {
         studentDAO.updateFirstName( firstName, id);
     }
 
+    public void updateLastName(String lastName,String id) {
+        studentDAO.updateLastName( lastName, id);
+    }
+
     public void addStudent(NewStudentRequest newStudentRequest){studentDAO.addStudent(newStudentRequest);}
 }
