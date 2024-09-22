@@ -14,7 +14,6 @@
     - CRUD : 
     - Read : by query search
     - Update : Birthday 
-    - Update : email
     - Update : Grades
     - Update : groupe
     - Delete : Delete a student.
@@ -66,6 +65,7 @@
     - Update : State
     - Update : First name
     - Update : Last Name
+    - Update : email
 
   ### `subject`
 
