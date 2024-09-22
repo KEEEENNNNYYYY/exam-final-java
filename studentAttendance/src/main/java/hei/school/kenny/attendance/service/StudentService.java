@@ -25,5 +25,9 @@ public class StudentService {
         return (studentDAO.getStudentById(studentId));
     }
 
+    public List<Student> getStudentByGroupe(String studentGroupe) {
+        return (studentDAO.getStudentByGroupe(studentGroupe));
+    }
+
     public void addStudent(NewStudentRequest newStudentRequest){studentDAO.addStudent(newStudentRequest);}
 }
