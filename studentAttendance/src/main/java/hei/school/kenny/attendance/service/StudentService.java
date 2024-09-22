@@ -37,5 +37,9 @@ public class StudentService {
         studentDAO.updateState( value, id);
     }
 
+    public void updateFirstName(String firstName,String id) {
+        studentDAO.updateFirstName( firstName, id);
+    }
+
     public void addStudent(NewStudentRequest newStudentRequest){studentDAO.addStudent(newStudentRequest);}
 }
