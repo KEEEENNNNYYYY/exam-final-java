@@ -1,6 +1,5 @@
 # exam final java : gestion d'absence
 
-
 # To do : 
 
 ### `missing_list`
@@ -13,7 +12,7 @@
 ### `student`
     
     - CRUD : 
-    - Read : by Id
+    
     - Read : by groupe
     - Read : by grades
     - Read : groupes
@@ -69,6 +68,7 @@
 
     - CRUD : 
     - Create : student
+    - Read : by Id
     - Read : by cored
     - Read : all student
     - Read : cored student
