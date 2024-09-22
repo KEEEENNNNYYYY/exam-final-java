@@ -193,5 +193,45 @@ public class StudentDAO implements Serializable {
         }
         return student;
     }
-    
+
+    public List<Student> getStudentByGroupe(String studentGroupe) {
+        List<Student> studentList = new ArrayList<>();
+        Connection conn = connectToDb();
+
+        if (conn != null) {
+            String query = "SELECT * FROM student WHERE groupe = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+                pstmt.setString(1, studentGroupe);
+                try (ResultSet rs = pstmt.executeQuery()) {
+
+                    while (rs.next()) {
+                        Student student = new Student();
+                        student.setId(rs.getString("id"));
+                        student.setFirstName(rs.getString("first_name"));
+                        student.setLastName(rs.getString("last_name"));
+                        student.setGrade(Grade.valueOf(rs.getString("grades")));
+                        student.setCored(rs.getBoolean("cored"));
+                        student.setEmail(rs.getString("email"));
+                        student.setGroupe(Groupe.valueOf(rs.getString("groupe")));
+
+                        studentList.add(student);
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        if (conn != null && !conn.isClosed()) {
+                            conn.close();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return studentList;
+    }
 }
