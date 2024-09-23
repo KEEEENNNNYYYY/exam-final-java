@@ -27,7 +27,7 @@ public class SubjectDAO {
         Connection conn = connectToDb();
 
         if (conn != null) {
-            String query = "INSERT INTO subject (name,total_hours,teacher) VALUES (?, ?, ?)";
+            String query = "INSERT INTO subject (name,total_hours,teacher,state) VALUES (?, ?, ?,'OnGoing')";
 
             try (PreparedStatement pstmt = conn.prepareStatement(query)) {
                 pstmt.setString(1, newSubjectRequest.getName());
@@ -122,6 +122,44 @@ public class SubjectDAO {
             }
         }
         return subject;
+    }
+
+    public List<Subject> getSubjectByTeacher(String teacher) {
+        List<Subject> subjectList = new ArrayList<>();
+        Connection conn = connectToDb();
+
+        if (conn != null) {
+            String query = "SELECT * FROM subject WHERE teacher = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+                pstmt.setString(1, teacher);
+                try (ResultSet rs = pstmt.executeQuery()) {
+
+                    while (rs.next()) {
+                        Subject subject = new Subject();
+                        subject.setName(rs.getString("name"));
+                        subject.setTotalHours(rs.getInt("total_hours"));
+                        subject.setTeacher(rs.getString("teacher"));
+                        subject.setState(State.valueOf(rs.getString("state")));
+
+                        subjectList.add(subject);
+                    }
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        if (conn != null && !conn.isClosed()) {
+                            conn.close();
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return subjectList;
     }
 
     public void updateState(String value,String id) {
