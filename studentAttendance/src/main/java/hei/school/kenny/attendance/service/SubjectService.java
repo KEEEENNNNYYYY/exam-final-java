@@ -31,7 +31,14 @@ public class SubjectService {
         return (subjectDAO. getSubjectById(subjectId) );
     }
 
+    public List<Subject>  getSubjectByTeacher(String teacher)  {
+        return (subjectDAO.getSubjectByTeacher(teacher)  );
+    }
+
     public void updateState(String value,String id) {
         subjectDAO.updateState( value, id);
     }
+
+
+
 }
