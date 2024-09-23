@@ -1,12 +1,11 @@
 package hei.school.kenny.attendance.DAO;
 
-import hei.school.kenny.attendance.model.NewSubjectRequest;
+import hei.school.kenny.attendance.model.*;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class SubjectDAO {
@@ -50,4 +49,44 @@ public class SubjectDAO {
             }
         }
     }
+
+    public List<Subject> fetchAllSubjects() {
+        Connection conn = connectToDb();
+        List<Subject> subjectList = new ArrayList<>();
+
+        if (conn != null) {
+            String query = "SELECT * FROM subject";
+            try (PreparedStatement pstmt = conn.prepareStatement(query);
+                 ResultSet rs = pstmt.executeQuery()) {
+
+                while (rs.next()) {
+                    String subjectName = rs.getString("name");
+                    int totalHours = rs.getInt("total_hours");
+                    String teacher = rs.getString("teacher");
+
+                    Subject subject = new Subject();
+                    subject.setName(subjectName);
+                    subject.setTotalHours(totalHours);
+                    subject.setTeacher(teacher);
+
+                    subjectList.add(subject);
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (conn != null && !conn.isClosed()) {
+                        conn.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            System.out.println("Connection to the database failed.");
+        }
+        return subjectList;
+    }
+
 }
