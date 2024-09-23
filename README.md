@@ -10,7 +10,6 @@
     
 ### `subject`
 
-    - Read : Read all subjects.
     - Read : by Id
     - Read : by teacher
     - Update : Update an existing subject.
@@ -62,6 +61,7 @@
   ### `subject`
 
     - Create : new subject.
+    - Read : Read all subjects.
 
 
 # note : 
