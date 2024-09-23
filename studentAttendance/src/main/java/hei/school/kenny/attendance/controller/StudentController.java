@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/students")
 public class StudentController {
 
     private final StudentService studentService;
@@ -16,53 +17,52 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    @GetMapping("/student/all")
+    @GetMapping("/all")
     public List<Student> showAllStudent() {
         return studentService.getAllStudent();
     }
 
-    @GetMapping("/students/search")
-    public List<Student> showCored(
-            @RequestParam(value = "cored", required = false) Boolean cored,
-            @RequestParam(value = "groupe", required = false) String groupe,
-            @RequestParam(value = "grades", required = false) String grades,
-            @RequestParam(value = "count", required = false) Integer count
-    ) {
-        if (cored != null) {
-            return studentService.getStudentListByCor(cored);
-        } else if (groupe != null) {
-            return  studentService.getStudentByGroupe(groupe);
-        } else if (grades != null) {
-            return studentService.getStudentByGrades(grades);
-        } else if (count != null){
-            return studentService.getStudentByUnjustifiedMissing(count);
-        }
-        else {
-            throw new IllegalArgumentException("Parameter 'cored' must be provided");
-        }
+    @GetMapping("/search/cored/{value}")
+    public List<Student> showCored(@PathVariable(value = "value") Boolean cored) {
+        return studentService.getStudentListByCor(cored);
     }
 
-    @GetMapping("/students/list")
+    @GetMapping("/search/groupe/{groupe}")
+    public List<Student> showByGroupe(@PathVariable(value = "groupe") String groupe) {
+        return studentService.getStudentByGroupe(groupe);
+    }
+
+    @GetMapping("/search/grades/{grades}")
+    public List<Student> showByGrades(@PathVariable(value = "grades") String grades) {
+        return studentService.getStudentByGrades(grades);
+    }
+
+    @GetMapping("/search/missingCount")
+    public List<Student> showByUnjustifiedMissing(@RequestParam(value = "missingCount") Integer missingCount) {
+        return studentService.getStudentByUnjustifiedMissing(missingCount);
+    }
+
+    @GetMapping("/{id}")
     public Student showStudent(
-            @RequestParam(value = "id", required = false) String studentId
+            @PathVariable(value = "id", required = false) String studentId
     ) {
             return studentService.getStudentById(studentId);
     }
 
-    @PostMapping("/student/add")
+    @PostMapping("/add")
     public void addStudent(@RequestBody NewStudentRequest newStudentRequest) {
         studentService.addStudent(newStudentRequest);
     }
 
-    @PutMapping("/students/missing/state")
+    @PutMapping("/{id}/state")
     public void updateState(
             @RequestParam(value = "value", required = true) String value,
-            @RequestParam(value = "id", required = false) String id
+            @PathVariable(value = "id", required = false) String id
     ) {
         studentService.updateState( value, id);
     }
 
-    @PutMapping("/students/missing/change")
+    @PutMapping("/change")
     public void updateFirstName(
             @RequestParam(value = "firstName", required = false) String firstName,
             @RequestParam(value = "lastName", required = false) String lastName,
