@@ -29,6 +29,10 @@ public class StudentService {
         return (studentDAO.getStudentByGroupe(studentGroupe));
     }
 
+    public List<Student> getStudentByUnjustifiedMissing(int count) {
+        return (studentDAO.getStudentByUnjustifiedMissing(count));
+    }
+
     public List<Student>getStudentByGrades(String studentGrades) {
         return (studentDAO.getStudentByGrades(studentGrades));
     }
