@@ -299,7 +299,7 @@ public class MissingListDAO implements Serializable {
             }
         }
     }
-    
+
     public void updateSubjectMissingDate(String studentId, String oldDate, String newDate) {
         Connection conn = connectToDb();
 

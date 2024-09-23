@@ -63,7 +63,7 @@ public class StudentController {
     }
 
     @PutMapping("/change")
-    public void updateFirstName(
+    public void updateStudent(
             @RequestParam(value = "firstName", required = false) String firstName,
             @RequestParam(value = "lastName", required = false) String lastName,
             @RequestParam(value = "newEmail", required = false) String newEmail,

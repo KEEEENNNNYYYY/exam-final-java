@@ -1,5 +1,14 @@
 # exam final java : gestion d'absence
 
+# remarque :
+
+    - Dans certain, les endpoints retournent des erreurs si les conditions ne sont pas remplie,
+    comme dans le cas des ajouts d'absences si l'eleve ou la matiere n'existe pas encore, d'où la necessité 
+    de la creation de ces autres champs en premiers lieu
+
+    - La deletion ne sera pas disponible dans aucun cas, à la place il y aura les state,qui ce dernier montrera
+    si une matiere est toujours en cours d'application, ou si un eleve fait encore parti de l'ecole en question
+
 # Utilisation : endpoint student:
 
 ### liste de tout les etudiants :
@@ -139,3 +148,59 @@
     http://localhost:8080/missing/del?subject_id={subject_to_delete}&student_id={student_to_delete}&date={date_to_apply_change}
     
     http://localhost:8080/missing/del?subject_id=SYS1&student_id=STD230003&date=2019-05-23
+
+# utilisation : endpoint subject :
+
+### Obtenir tous les cours :
+
+    http://localhost:8080/subject/all
+
+### Ajouter un nouveau cours 
+
+    http://localhost:8080/subject/add
+
+    body format :
+
+    {
+        "name": "NEW_SUBJECT",
+        "totalHours": 40,
+        "teacher": "Dr New"
+    }
+
+### Rechercher un cours par nom
+
+    http://localhost:8080/subject/search?name={cours_à_rechercher}
+
+
+    http://localhost:8080/subject/search?name=MGT1
+
+### Obtenir les cours d'un enseignant
+
+    http://localhost:8080/subject/show/{teacher}
+
+    
+    http://localhost:8080/subject/show/Doe
+
+### Mettre à jour l'état d'un cours :
+
+    http://localhost:8080/subject/update/state?id={nom_de_la_matiere}&value={nouvelle_etat_selon_l_enum}
+
+    http://localhost:8080/subject/update/state?id=MGT1&value=Out
+
+### Mettre à jour le nom d'un cours
+
+    http://localhost:8080/subject/update/name?id={nom_de_la_matiere}&value={nouvelle_etat_selon_l_enum}
+
+    http://localhost:8080/subject/update/state?id=MGT1&value=SYS1
+
+### Mettre à jour le nombre total d'heures d'un cours
+
+    http://localhost:8080/subject/update/name?id={nom_de_la_matiere}&value={nouvelle_valeur}
+
+    http://localhost:8080/subject/update/state?id=MGT1&value=99
+
+### Mettre à jour l'enseignant d'un cours
+
+    http://localhost:8080/subject/update/name?id={nom_de_la_matiere}&value={nouvelle_valeur}
+
+    http://localhost:8080/subject/update/state?id=MGT1&value=BenjaFolo
