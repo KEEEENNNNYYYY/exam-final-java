@@ -9,6 +9,55 @@
     - La deletion ne sera pas disponible dans aucun cas, à la place il y aura les state,qui ce dernier montrera
     si une matiere est toujours en cours d'application, ou si un eleve fait encore parti de l'ecole en question
 
+# creation de la base donnée : 
+
+    -- Creation de la table student:
+  
+
+    CREATE TABLE student (
+        id character varying NOT NULL,
+        first_name character varying,
+        last_name character varying,
+        birthday timestamp without time zone,
+        grades character varying,
+        address character varying,
+        sexe character varying,
+        cored boolean,
+        email character varying,
+        groupe character varying,
+        unjustified_missing_count integer DEFAULT 0,
+        state character varying DEFAULT 'IN'::character varying,
+        PRIMARY KEY (id)
+    );
+
+
+    -- Creation de la table subject
+
+
+    CREATE TABLE subject (
+        name character varying NOT NULL,
+        total_hours integer,
+        teacher character varying,
+        state character varying(255),
+        PRIMARY KEY (name)
+    );
+
+
+    -- Creation de la table the missing_list 
+
+
+    CREATE TABLE missing_list (
+        student_id character varying,
+        date timestamp without time zone NOT NULL,
+        subject_id character varying,
+        first_name character varying,
+        last_name character varying,
+        justified character varying,
+        FOREIGN KEY (student_id) REFERENCES student (id),
+        FOREIGN KEY (subject_id) REFERENCES subject (name) ON UPDATE CASCADE
+    );
+
+
 # Utilisation : endpoint student:
 
 ### liste de tout les etudiants :
