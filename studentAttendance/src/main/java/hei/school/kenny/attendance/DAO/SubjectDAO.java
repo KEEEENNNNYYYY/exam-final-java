@@ -242,4 +242,31 @@ public class SubjectDAO {
             }
         }
     }
+
+    public void updateTotalHours(int value,String id) {
+        Connection conn = connectToDb();
+
+        if (conn != null) {
+            String query = "UPDATE subject SET total_hours = ? WHERE name = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+                pstmt.setInt(1, value);
+                pstmt.setString(2, id);
+
+                int rowsAffected = pstmt.executeUpdate();
+                System.out.println("Rows updated: " + rowsAffected);
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new RuntimeException("Error updating missing list", e);
+            } finally {
+                try {
+                    if (conn != null && !conn.isClosed()) {
+                        conn.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }
