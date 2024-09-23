@@ -37,8 +37,8 @@ public class MissingService {
         missingListDAO.addMissingList(missingListRequest);
     }
 
-    public void updateMissingListBySubject(String studentId, String oldSubject, String newSubject) {
-        missingListDAO.updateSubjectMissingList(studentId, oldSubject, newSubject);
+    public void updateMissingListBySubject(String studentId, String oldCours, String newCours, String date) {
+        missingListDAO.updateMissingListBySubject( studentId,  oldCours,  newCours,  date);
     }
 
     public void updateSubjectMissingDate(String studentId, String oldDate, String newDate) {
