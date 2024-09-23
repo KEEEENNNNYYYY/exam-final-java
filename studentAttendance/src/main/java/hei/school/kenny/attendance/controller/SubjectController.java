@@ -33,6 +33,13 @@ public class SubjectController {
         return subjectService.getSubjectById(name);
     }
 
+    @GetMapping("/subject")
+    public List<Subject> showByTeacher(
+            @RequestParam(value = "teacher", required = false) String teacher
+    ) {
+        return subjectService.getSubjectByTeacher(teacher);
+    }
+
     @PutMapping("/subject/state")
     public void updateState(
             @RequestParam(value = "value", required = false) String value,
