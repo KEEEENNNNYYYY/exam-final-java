@@ -32,4 +32,12 @@ public class SubjectController {
     ) {
         return subjectService.getSubjectById(name);
     }
+
+    @PutMapping("/subject/state")
+    public void updateState(
+            @RequestParam(value = "value", required = false) String value,
+            @RequestParam(value = "id", required = true) String id
+    ) {
+        subjectService.updateState( value, id);
+    }
 }
