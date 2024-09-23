@@ -10,7 +10,6 @@
     
 ### `subject`
 
-    - Read : by teacher
     - Update : subject name.
     - Update : teacher name.
     - Update : total course hours
@@ -64,6 +63,7 @@
     - Read : Read all subjects.
     - Read : by Id
     - Delete : Delete a subject.
+    - Read : by teacher
 
 
 # note : 
