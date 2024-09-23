@@ -8,11 +8,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/subject")
 public class SubjectController {
 
     private final SubjectService subjectService;
 
-    @GetMapping("/subject/all")
+    @GetMapping("/all")
     public List<Subject> showAllSubject() {
         return subjectService.getAllSubjects();
     }
@@ -21,26 +22,26 @@ public class SubjectController {
         this.subjectService = subjectService;
     }
 
-    @PostMapping("/subject/add")
+    @PostMapping("/add")
     public void addSubject(@RequestBody NewSubjectRequest newSubjectRequest) {
         subjectService.addSubject(newSubjectRequest);
     }
 
-    @GetMapping("/subject/search")
+    @GetMapping("/search/{name}")
     public Subject showById(
-            @RequestParam(value = "name", required = false) String name
+            @PathVariable(value = "name", required = false) String name
     ) {
         return subjectService.getSubjectById(name);
     }
 
-    @GetMapping("/subject")
+    @GetMapping("/show/{teacher}")
     public List<Subject> showByTeacher(
-            @RequestParam(value = "teacher", required = false) String teacher
+            @PathVariable(value = "teacher", required = false) String teacher
     ) {
         return subjectService.getSubjectByTeacher(teacher);
     }
 
-    @PutMapping("/subject/state")
+    @PutMapping("/update/state")
     public void updateState(
             @RequestParam(value = "value", required = false) String value,
             @RequestParam(value = "id", required = true) String id
@@ -48,7 +49,7 @@ public class SubjectController {
             subjectService.updateState( value, id);
     }
 
-    @PutMapping("/subject/name")
+    @PutMapping("/update/name")
     public void updateName(
             @RequestParam(value = "value", required = false) String value,
             @RequestParam(value = "id", required = true) String id
@@ -56,7 +57,7 @@ public class SubjectController {
         subjectService.updateName( value, id);
     }
 
-    @PutMapping("/subject/teacher")
+    @PutMapping("/update/teacher")
     public void updateTeacher(
             @RequestParam(value = "value", required = false) String value,
             @RequestParam(value = "id", required = true) String id
@@ -64,7 +65,7 @@ public class SubjectController {
         subjectService.updateTeacher(value, id);
     }
 
-    @PutMapping("/subject/totalHours")
+    @PutMapping("/update/totalHours")
     public void updateTotalHours(
             @RequestParam(value = "value", required = false) int value,
             @RequestParam(value = "id", required = true) String id
