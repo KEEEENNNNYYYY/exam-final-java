@@ -2,7 +2,6 @@ package hei.school.kenny.attendance.service;
 
 import hei.school.kenny.attendance.DAO.SubjectDAO;
 import hei.school.kenny.attendance.model.NewSubjectRequest;
-import hei.school.kenny.attendance.model.Student;
 import hei.school.kenny.attendance.model.Subject;
 import org.springframework.stereotype.Service;
 
@@ -32,4 +31,7 @@ public class SubjectService {
         return (subjectDAO. getSubjectById(subjectId) );
     }
 
+    public void updateState(String value,String id) {
+        subjectDAO.updateState( value, id);
+    }
 }
