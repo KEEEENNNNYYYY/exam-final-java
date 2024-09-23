@@ -1,0 +1,478 @@
+openapi: 3.0.0
+info:
+  title: Student attendance Management 
+  version: 1.0.0
+paths:
+  /students/all:
+    get:
+      summary: List all students
+      responses:
+        '200':
+          description: List of students
+          
+  /students/search/cored/{value}:
+    get:
+      summary: List all students based on COR status
+      parameters:
+        - name: value
+          in: path
+          required: true
+          description: Indicates if the student is in COR (true/false)
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: List of students based on COR status
+
+  /students/search/groupe/{group}:
+    get:
+      summary: List all students by group
+      parameters:
+        - name: group
+          in: path
+          required: true
+          description: Group of students
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of students in the specified group
+
+  /students/search/grades/{grade}:
+    get:
+      summary: Show students by academic year
+      parameters:
+        - name: grade
+          in: path
+          required: true
+          description: Academic year (L1, L2, etc.)
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of students in the specified academic year
+
+  /students/search/missingCount:
+    get:
+      summary: Show students by number of unjustified absences
+      parameters:
+        - name: missingCount
+          in: query
+          required: true
+          description: The number of unjustified absences
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of students with the specified number of absences
+
+  /students/{id}:
+    get:
+      summary: Show a student by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Student ID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Student details
+
+  /students/add:
+    post:
+      summary: Add a student
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                birthday:
+                  type: string
+                  format: date
+                grade:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                address:
+                  type: string
+                sex:
+                  type: string
+                cored:
+                  type: boolean
+                group:
+                  type: string
+      responses:
+        '201':
+          description: Student added
+
+  /students/{id}/state:
+    put:
+      summary: Update a student's status
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Student ID
+          schema:
+            type: string
+        - name: value
+          in: query
+          required: true
+          description: Student status (in/out)
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Student status updated
+
+  /students/change:
+    put:
+      summary: Update a student's information
+      parameters:
+        - name: id
+          in: query
+          required: true
+          description: Student ID
+          schema:
+            type: string
+        - name: column_name
+          in: query
+          required: true
+          description: Column to update
+          schema:
+            type: string
+        - name: newValue
+          in: query
+          required: true
+          description: New value
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Student information updated
+
+  /missing/date/{date}:
+    get:
+      summary: Get the list of absentees by date
+      parameters:
+        - name: date
+          in: path
+          required: true
+          description: Date to search (YYYY-MM-DD)
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of absentees on the specified date
+
+  /missing/id/{id}:
+    get:
+      summary: Get the list of absentees by student ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Student ID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of absentees for the specified student
+
+  /missing/name/{subject}:
+    get:
+      summary: Get the list of absentees by Subject name
+      parameters:
+        - name: subject
+          in: path
+          required: true
+          description: Subject name
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of absentees for the specified Subject
+
+  /missing/all:
+    get:
+      summary: Get the complete list of absentees
+      responses:
+        '200':
+          description: Complete list of absentees
+
+  /missing/add:
+    post:
+      summary: Add a new absence record
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                studentId:
+                  type: string
+                date:
+                  type: string
+                  format: date
+                subjectId:
+                  type: string
+      responses:
+        '201':
+          description: Absence record added
+
+  /missing/change/Subject:
+    put:
+      summary: Update a student's Subject
+      parameters:
+        - name: studentId
+          in: query
+          required: true
+          description: Student ID
+          schema:
+            type: string
+        - name: oldCours
+          in: query
+          required: true
+          description: Old Subject
+          schema:
+            type: string
+        - name: newCours
+          in: query
+          required: true
+          description: New Subject
+          schema:
+            type: string
+        - name: date
+          in: query
+          required: true
+          description: Date of the absence
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Subject updated
+
+  /missing/change/date:
+    put:
+      summary: Update a student's absence date
+      parameters:
+        - name: studentId
+          in: query
+          required: true
+          description: Student ID
+          schema:
+            type: string
+        - name: oldDate
+          in: query
+          required: true
+          description: Old date
+          schema:
+            type: string
+        - name: newDate
+          in: query
+          required: true
+          description: New date
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Absence date updated
+
+  /missing/justify:
+    put:
+      summary: Justify an absence
+      parameters:
+        - name: studentId
+          in: query
+          required: true
+          description: Student ID
+          schema:
+            type: string
+        - name: subject
+          in: query
+          required: true
+          description: Subject of the absence
+          schema:
+            type: string
+        - name: date
+          in: query
+          required: true
+          description: Date of the missed subject
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Absence justified
+
+  /missing/del:
+    delete:
+      summary: Delete an absence record
+      parameters:
+        - name: subject_id
+          in: query
+          required: true
+          description: Subject ID to delete
+          schema:
+            type: string
+        - name: student_id
+          in: query
+          required: true
+          description: Student ID to delete
+          schema:
+            type: string
+        - name: date
+          in: query
+          required: true
+          description: Date of the absence to delete
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Absence record deleted
+
+  /subject/all:
+    get:
+      summary: Get all Subjects
+      responses:
+        '200':
+          description: List of all Subjects
+
+  /subject/add:
+    post:
+      summary: Add a new Subject
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                totalHours:
+                  type: integer
+                teacher:
+                  type: string
+      responses:
+        '201':
+          description: Subject added
+
+  /subject/search:
+    get:
+      summary: Search for a Subject by name
+      parameters:
+        - name: name
+          in: query
+          required: true
+          description: Subject name to search
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of Subjects matching the name
+
+  /subject/show/{teacher}:
+    get:
+      summary: Get Subjects taught by a teacher
+      parameters:
+        - name: teacher
+          in: path
+          required: true
+          description: Teacher's name
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of Subjects taught by the specified teacher
+
+  /subject/update/state:
+    put:
+      summary: Update the status of a Subject
+      parameters:
+        - name: id
+          in: query
+          required: true
+          description: Subject ID
+          schema:
+            type: string
+        - name: value
+          in: query
+          required: true
+          description: New status according to the enum
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Subject status updated
+
+  /subject/update/name:
+    put:
+      summary: Update the name of a Subject
+      parameters:
+        - name: id
+          in: query
+          required: true
+          description: Subject ID
+          schema:
+            type: string
+        - name: value
+          in: query
+          required: true
+          description: New Subject name
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Subject name updated
+
+  /subject/update/totalHours:
+    put:
+      summary: Update the total hours of a Subject
+      parameters:
+        - name: id
+          in: query
+          required: true
+          description: Subject ID
+          schema:
+            type: string
+        - name: value
+          in: query
+          required: true
+          description: New total hours
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Subject total hours updated
+
+  /subject/update/teacher:
+    put:
+      summary: Update the teacher of a Subject
+      parameters:
+        - name: id
+          in: query
+          required: true
+          description: Subject ID
+          schema:
+            type: string
+        - name: value
+          in: query
+          required: true
+          description: New teacher name
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Subject teacher updated
