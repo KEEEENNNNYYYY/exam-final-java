@@ -79,3 +79,63 @@
     - newGrades
     - newGroupes
     - newBirthday
+  
+# Utilisation : endpoint missing
+
+### Obtenir la liste des absents par date 
+
+    http://localhost:8080/missing/date/{exemple_de_date}
+
+    http://localhost:8080/missing/date/2019-05-23
+
+### Obtenir la liste des absents par ID d'étudiant
+
+    http://localhost:8080/missing/id/{id}
+    
+    http://localhost:8080/missing/id/STD230003
+
+### Obtenir la liste des absents par nom de cours
+
+    http://localhost:8080/missing/name/{nom_de_la_matiere}
+
+    http://localhost:8080/missing/name/PROG1
+
+### Obtenir toute la liste des absents
+
+    http://localhost:8080/missing/all
+
+### Ajouter un nouvel enregistrement d'absence
+
+    http://localhost:8080/missing/add
+
+    format body :
+
+    {
+        "studentId": "STD230006",
+        "date": "2019-05-23",
+        "subjectId": "LV1" 
+    }
+
+### Mettre à jour le cours d'un étudiant
+
+    http://localhost:8080/missing/change/course?studentId={existing_id}&oldCours={existing_course_to_change}&newCours={new_course_to_add}&date={date_where we_want_to_apply_change}
+    
+    http://localhost:8080/missing/change/course?studentId=STD230003&oldCours=LV1&newCours=SYS1&date=2019-05-23
+
+### Mettre à jour la date d'absence d'un étudiant   
+
+    http://localhost:8080/missing/change/date?studentId={existing_id}&oldDate={date_to_change}&newDate={date_to_apply}
+    
+    http://localhost:8080/missing/change/date?studentId=STD230003&oldDate=2019-05-23&newDate=2019-05-24
+
+### Justifier une absence
+    
+    http://localhost:8080/missing/justify?studentId={student_id}&subject={subject_he_missed}&date={date_of_missed_subject}
+
+    http://localhost:8080/missing/justify?studentId=STD230003&subject=LV1&date=2019-05-23_
+
+### Supprimer un enregistrement d'absence
+
+    http://localhost:8080/missing/del?subject_id={subject_to_delete}&student_id={student_to_delete}&date={date_to_apply_change}
+    
+    http://localhost:8080/missing/del?subject_id=SYS1&student_id=STD230003&date=2019-05-23

@@ -209,11 +209,16 @@ public class MissingListDAO implements Serializable {
             try {
                 conn.setAutoCommit(false);
 
+                Student student = getStudentById(missingListRequest.getStudentId());
+                if (student == null) {
+                    throw new RuntimeException("Étudiant introuvable avec l'ID: " + missingListRequest.getStudentId());
+                }
+
                 String insertQuery = "INSERT INTO missing_list (student_id, first_name, last_name, date, subject_id, justified) VALUES (?, ?, ?, ?, ?, false)";
                 try (PreparedStatement pstmt = conn.prepareStatement(insertQuery)) {
                     pstmt.setString(1, missingListRequest.getStudentId());
-                    pstmt.setString(2, missingListRequest.getFirstName());
-                    pstmt.setString(3, missingListRequest.getLastName());
+                    pstmt.setString(2, student.getFirstName());
+                    pstmt.setString(3, student.getLastName());
                     pstmt.setDate(4, java.sql.Date.valueOf(missingListRequest.getDate()));
                     pstmt.setString(5, missingListRequest.getSubjectId());
 
@@ -266,15 +271,16 @@ public class MissingListDAO implements Serializable {
         }
     }
 
-    public void updateSubjectMissingList(String studentId, String oldSubject, String newSubject) {
+    public void updateMissingListBySubject(String studentId, String oldCours, String newCours, String date) {
         Connection conn = connectToDb();
 
         if (conn != null) {
-            String query = "UPDATE missing_list SET subject_id = ? WHERE subject_id = ? AND student_id = ?";
+            String query = "UPDATE missing_list SET subject_id = ? WHERE subject_id = ? AND student_id = ? AND date = ?";
             try (PreparedStatement pstmt = conn.prepareStatement(query)) {
-                pstmt.setString(1, newSubject);
-                pstmt.setString(2, oldSubject);
+                pstmt.setString(1, newCours);
+                pstmt.setString(2, oldCours);
                 pstmt.setString(3, studentId);
+                pstmt.setDate(4, java.sql.Date.valueOf(date));
 
                 int rowsAffected = pstmt.executeUpdate();
                 System.out.println("Rows updated: " + rowsAffected);
@@ -293,7 +299,7 @@ public class MissingListDAO implements Serializable {
             }
         }
     }
-
+    
     public void updateSubjectMissingDate(String studentId, String oldDate, String newDate) {
         Connection conn = connectToDb();
 
