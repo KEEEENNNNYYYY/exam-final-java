@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 @RestController
+@RequestMapping("/missing")
 public class MissingController {
     private final MissingService missingService;
 
@@ -17,45 +18,44 @@ public class MissingController {
         this.missingService = missingService;
     }
 
-    @GetMapping("/students/missing")
-    public List<MissingList> showMissing(
-            @RequestParam(value = "date", required = false) String date,
-            @RequestParam(value = "id", required = false) String id,
-            @RequestParam(value = "name", required = false) String name
-    ) {
-
-        if (date != null) {
-            java.util.Date utilDate = java.sql.Date.valueOf(date);
-            return missingService.getMissingListByDate(utilDate);
-        } else if (id != null) {
-            return missingService.getMissingListById(id);
-        }else if (name != null) {
-            return missingService.getMissingListBySubject(name);
-        }
-        else {
-            throw new IllegalArgumentException("Either 'date' or 'id' or 'name'");
-        }
+    @GetMapping("/date/{date}")
+    public List<MissingList> showMissingByDate(@PathVariable(value = "date") String date) {
+        java.util.Date utilDate = java.sql.Date.valueOf(date);
+        return missingService.getMissingListByDate(utilDate);
     }
-    @GetMapping("/students/missing/all")
+
+    @GetMapping("/id/{id}")
+    public List<MissingList> showMissingById(@PathVariable(value = "id") String id) {
+        return missingService.getMissingListById(id);
+    }
+
+    @GetMapping("/name/{name}")
+    public List<MissingList> showMissingBySubject(@PathVariable(value = "name") String name) {
+        return missingService.getMissingListBySubject(name);
+    }
+
+    @GetMapping("/all")
     public List<MissingList> allMissingList(){
         return missingService.getAllMissingList();
     }
 
-    @PostMapping("/students/missing/add")
+    @PostMapping("/add")
     public void addMissing(@RequestBody MissingListRequest missingListRequest) {
         missingService.addMissingList(missingListRequest);
     }
 
-    @PutMapping("/students/missing/change/course")
+    @PutMapping("/change/course")
     public void updateMissingListBySubject(
             @RequestParam(value = "studentId", required = true) String studentId,
-            @RequestParam(value = "oldCours", required = false) String oldCours,
-            @RequestParam(value = "newCours", required = false) String newCours
+            @RequestParam(value = "oldCours", required = true) String oldCours,
+            @RequestParam(value = "newCours", required = true) String newCours,
+            @RequestParam(value = "date", required = true) String date
     ) {
-        missingService.updateMissingListBySubject(studentId, oldCours, newCours);
+        missingService.updateMissingListBySubject(studentId, oldCours, newCours, date);
     }
 
-    @PutMapping("/students/missing/change/date")
+
+    @PutMapping("/change/date")
     public void updateMissingListByDate(
             @RequestParam(value = "studentId", required = true) String studentId,
             @RequestParam(value = "oldDate", required = false) String oldDate,
@@ -65,7 +65,7 @@ public class MissingController {
     }
 
 
-    @PutMapping("/students/missing/justify")
+    @PutMapping("/justify")
     public void updateJustification(
             @RequestParam(value = "studentId", required = true) String studentId,
             @RequestParam(value = "subject", required = false) String subject,
@@ -80,7 +80,7 @@ public class MissingController {
         }
     }
 
-    @DeleteMapping("/students/missing/del")
+    @DeleteMapping("/del")
     public void updateMissingList(
             @RequestParam(value = "subject_id", required = true) String subjectId,
             @RequestParam(value = "student_id", required = true) String studentId,
