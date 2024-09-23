@@ -47,4 +47,8 @@ public class SubjectService {
         subjectDAO.updateTeacher( value, id);
     }
 
+    public void updateTotalHours(int value,String id) {
+        subjectDAO.updateTotalHours(value, id);
+    }
+
 }
