@@ -25,7 +25,8 @@ public class StudentController {
     public List<Student> showCored(
             @RequestParam(value = "cored", required = false) Boolean cored,
             @RequestParam(value = "groupe", required = false) String groupe,
-            @RequestParam(value = "grades", required = false) String grades
+            @RequestParam(value = "grades", required = false) String grades,
+            @RequestParam(value = "count", required = false) Integer count
     ) {
         if (cored != null) {
             return studentService.getStudentListByCor(cored);
@@ -33,7 +34,10 @@ public class StudentController {
             return  studentService.getStudentByGroupe(groupe);
         } else if (grades != null) {
             return studentService.getStudentByGrades(grades);
-        } else {
+        } else if (count != null){
+            return studentService.getStudentByUnjustifiedMissing(count);
+        }
+        else {
             throw new IllegalArgumentException("Parameter 'cored' must be provided");
         }
     }
