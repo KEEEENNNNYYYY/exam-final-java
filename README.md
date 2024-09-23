@@ -6,16 +6,8 @@
 
 ### `Vue`
 
-    - student presencies
-
-
 ### `student`
     
-    - CRUD : 
-    - Read : by query search
-    - Delete : Delete a student.
-    - Read : by unjustified missing time per students
-
 ### `subject`
 
     - Create : new subject.
@@ -59,6 +51,7 @@
     - Read : by cored
     - Read : all student
     - Read : cored student
+    - Read : by unjustified missing time per students
     - Update : State
     - Update : First name
     - Update : Last Name
