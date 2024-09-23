@@ -2,26 +2,8 @@ package hei.school.kenny.attendance.model;
 
 public class MissingListRequest {
     private String studentId;
-    private String firstName;
-    private String lastName;
     private String date;
     private String subjectId;
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
 
     public String getStudentId() {
         return studentId;
