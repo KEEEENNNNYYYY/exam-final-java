@@ -57,6 +57,37 @@
         FOREIGN KEY (subject_id) REFERENCES subject (name) ON UPDATE CASCADE
     );
 
+# exemple d'insert :
+
+    -- Pour student : 
+
+    INSERT INTO student (id, first_name, last_name, birthday, grades, address, sexe, cored, email, groupe, unjustified_missing_count, state) VALUES
+    ('STD23011', 'Alice', 'Dubois', '2001-06-15 00:00:00', 'L2', '10 rue de l\'Université', 'F', false, 'alice.dubois@example.com', 'H2', 0, 'IN'),
+    ('STD23002', 'Benja', 'Folo', '2015-01-01 00:00:00', 'L2', '12 rue de Lyon', 'M', false, 'folo.benja.hei@gmail.com', 'H2', 0, 'OUT'),
+    ('STD23003', 'Clara', 'Martin', '2000-03-25 00:00:00', 'L1', '5 rue de Paris', 'F', true, 'clara.martin@example.com', 'J1', 0, 'IN'),
+    ('STD23004', 'David', 'Lemoine', '1999-12-12 00:00:00', 'L3', '8 rue de Nice', 'M', false, 'david.lemoine@example.com', 'H2', 0, 'IN'),
+    ('STD23005', 'Emma', 'Bernard', '2002-04-10 00:00:00', 'L2', '20 rue de Marseille', 'F', true, 'emma.bernard@example.com', 'J2', 0, 'OUT'),
+    ('STD23006', 'Fabien', 'Dupont', '2001-11-05 00:00:00', 'L1', '15 rue de Lyon', 'M', false, 'fabien.dupont@example.com', 'H1', 0, 'IN'),
+    ('STD23007', 'Gina', 'Moreau', '2000-08-20 00:00:00', 'L3', '30 rue de Toulouse', 'F', false, 'gina.moreau@example.com', 'J2', 0, 'IN'),
+    ('STD23008', 'Henri', 'Lefevre', '2002-02-02 00:00:00', 'L1', '25 rue de Bordeaux', 'M', true, 'henri.lefevre@example.com', 'H1', 0, 'OUT'),
+    ('STD23009', 'Inès', 'Giraud', '2001-09-15 00:00:00', 'L2', '18 rue de Lille', 'F', false, 'ines.giraud@example.com', 'J1', 0, 'IN'),
+    ('STD23010', 'Julien', 'Roux', '2003-05-30 00:00:00', 'L3', '22 rue de Nantes', 'M', false, 'julien.roux@example.com', 'H2', 0, 'IN');
+
+
+    -- Pour subject : 
+
+    INSERT INTO public.subject (name, total_hours, teacher, state) VALUES
+    ('PROG1', 40, 'Smith', 'OnGoing'),
+    ('SYS1', 35, 'Johnson', 'OnGoing'),
+    ('LV1', 50, 'Brown', 'OnGoing'),
+    ('MGT1', 45, 'White', 'OnGoing'),
+    ('THEORIE1', 30, 'Green', 'OnGoing'),
+    ('PROG2', 40, 'Black', 'OnGoing'),
+    ('WEB1', 50, 'Gray', 'OnGoing'),
+    ('WEB2', 25, 'Blue', 'OnGoing'),
+    ('SYS2', 40, 'Purple', 'OnGoing'),
+    ('LV2', 20, 'Red', 'OnGoing');
+
 
 # Utilisation : endpoint student:
 
