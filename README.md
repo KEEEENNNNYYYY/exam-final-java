@@ -9,7 +9,10 @@
     - La deletion ne sera pas disponible dans aucun cas, à la place il y aura les state,qui ce dernier montrera
     si une matiere est toujours en cours d'application, ou si un eleve fait encore parti de l'ecole en question
 
-    - Pas d'insert pour la table missing_list car l'insert devrait se faire via la method POST due au fonction à l'interieur du DAO (petit spoil,chaque ajout dans missing_list augmentera le compteur de unjustified missing,la justification de l'absence reduira ce compteur,cela fait parti du role de la fonction add et justify,donc un insert direct psotgres va créer beaucoup de confusion)
+    - Pas d'insert pour la table missing_list car l'insert devrait se faire via la method POST 
+    due au fonction à l'interieur du DAO (petit spoil,chaque ajout dans missing_list augmentera 
+    le compteur de unjustified missing,la justification de l'absence reduira ce compteur,
+    cela fait parti du role de la fonction add et justify,donc un insert direct psotgres va créer beaucoup de confusion)
 
 # creation de la base donnée : 
 
