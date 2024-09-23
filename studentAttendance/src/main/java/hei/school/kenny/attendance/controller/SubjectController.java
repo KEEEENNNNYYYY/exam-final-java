@@ -45,6 +45,14 @@ public class SubjectController {
             @RequestParam(value = "value", required = false) String value,
             @RequestParam(value = "id", required = true) String id
     ) {
-        subjectService.updateState( value, id);
+            subjectService.updateState( value, id);
+    }
+
+    @PutMapping("/subject/name")
+    public void updateName(
+            @RequestParam(value = "value", required = false) String value,
+            @RequestParam(value = "id", required = true) String id
+    ) {
+        subjectService.updateName( value, id);
     }
 }
