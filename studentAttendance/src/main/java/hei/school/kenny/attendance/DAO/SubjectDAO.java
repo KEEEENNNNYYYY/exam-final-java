@@ -89,4 +89,39 @@ public class SubjectDAO {
         return subjectList;
     }
 
+    public Subject getSubjectById(String subjectId) {
+        Subject subject = null;
+        Connection conn = connectToDb();
+
+        if (conn != null) {
+            String sql = "SELECT * FROM subject WHERE name = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setString(1, subjectId);
+                try (ResultSet rs = pstmt.executeQuery()) {
+
+                    if (rs.next()) {
+                        subject = new Subject();
+                        subject.setName(rs.getString("name"));
+                        subject.setTotalHours(rs.getInt("total_hours"));
+                        subject.setTeacher(rs.getString("teacher"));
+                    }
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        if (conn != null && !conn.isClosed()) {
+                            conn.close();
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return subject;
+    }
+
 }
