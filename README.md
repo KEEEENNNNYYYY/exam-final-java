@@ -11,8 +11,9 @@
 ### `subject`
 
     - Read : by teacher
-    - Update : Update an existing subject.
-    - Delete : Delete a subject.
+    - Update : subject name.
+    - Update : teacher name.
+    - Update : total course hours
     
 ### `data base : postgresql`
 
@@ -62,6 +63,7 @@
     - Create : new subject.
     - Read : Read all subjects.
     - Read : by Id
+    - Delete : Delete a subject.
 
 
 # note : 
