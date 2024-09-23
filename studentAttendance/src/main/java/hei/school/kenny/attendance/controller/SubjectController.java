@@ -61,6 +61,14 @@ public class SubjectController {
             @RequestParam(value = "value", required = false) String value,
             @RequestParam(value = "id", required = true) String id
     ) {
-        subjectService.updateTeacher( value, id);
+        subjectService.updateTeacher(value, id);
+    }
+
+    @PutMapping("/subject/totalHours")
+    public void updateTotalHours(
+            @RequestParam(value = "value", required = false) int value,
+            @RequestParam(value = "id", required = true) String id
+    ) {
+        subjectService.updateTotalHours(value, id);
     }
 }
