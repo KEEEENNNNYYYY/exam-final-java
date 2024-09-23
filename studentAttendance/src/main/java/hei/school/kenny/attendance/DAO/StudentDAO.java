@@ -162,39 +162,57 @@ public class StudentDAO implements Serializable {
     }
 
     public Student getStudentById(String studentId) {
-        Student student = null;
+        Student student = new Student();
         Connection conn = connectToDb();
 
         if (conn != null) {
-            String sql = "SELECT id, first_name, last_name FROM student WHERE id = ?";
+            String sql = "SELECT * FROM student WHERE id = ?";
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setString(1, studentId);
                 try (ResultSet rs = pstmt.executeQuery()) {
 
                     if (rs.next()) {
-                        student = new Student();
                         student.setId(rs.getString("id"));
                         student.setFirstName(rs.getString("first_name"));
                         student.setLastName(rs.getString("last_name"));
+                        student.setBirthday(rs.getDate("birthday"));
+
+                        String gradeString = rs.getString("grades");
+                        System.out.println("Fetched grade value: " + gradeString);
+                        student.setGrade(Grade.valueOf(gradeString));
+
+                        student.setAdress(rs.getString("adress"));
+
+                        String sexeString = rs.getString("sexe");
+                        student.setSexe(Sexe.valueOf(sexeString));
+
+                        boolean cored = rs.getBoolean("cored");
+                        student.setCored(cored);
+
+                        student.setEmail(rs.getString("email"));
+
+                        String groupeString = rs.getString("groupe");
+                        student.setGroupe(Groupe.valueOf(groupeString));
                     }
 
                 } catch (Exception e) {
                     e.printStackTrace();
-                } finally {
-                    try {
-                        if (conn != null && !conn.isClosed()) {
-                            conn.close();
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
                 }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
+            } finally {
+                try {
+                    if (conn != null && !conn.isClosed()) {
+                        conn.close();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
         return student;
     }
+
 
     public List<Student> getStudentByUnjustifiedMissing(int count) {
         List<Student> studentList = new ArrayList<>();
