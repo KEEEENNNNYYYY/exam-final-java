@@ -4,11 +4,21 @@ public class Subject {
     private String name;
     private int totalHours;
     private String teacher;
+    private State state;
 
     public Subject() {
         this.name = name;
+        this.state = State.OnGoing;
         this.teacher = teacher;
         this.totalHours = totalHours;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
     }
 
     public String getName() {
