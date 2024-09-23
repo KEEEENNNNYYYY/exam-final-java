@@ -66,17 +66,23 @@
 
     -- Pour student : 
 
-    INSERT INTO student (id, first_name, last_name, birthday, grades, address, sexe, cored, email, groupe, unjustified_missing_count, state) VALUES
-    ('STD23011', 'Alice', 'Dubois', '2001-06-15 00:00:00', 'L2', '10 rue de l\'Université', 'F', false, 'alice.dubois@example.com', 'H2', 0, 'IN'),
-    ('STD23002', 'Benja', 'Folo', '2015-01-01 00:00:00', 'L2', '12 rue de Lyon', 'M', false, 'folo.benja.hei@gmail.com', 'H2', 0, 'OUT'),
-    ('STD23003', 'Clara', 'Martin', '2000-03-25 00:00:00', 'L1', '5 rue de Paris', 'F', true, 'clara.martin@example.com', 'J1', 0, 'IN'),
-    ('STD23004', 'David', 'Lemoine', '1999-12-12 00:00:00', 'L3', '8 rue de Nice', 'M', false, 'david.lemoine@example.com', 'H2', 0, 'IN'),
-    ('STD23005', 'Emma', 'Bernard', '2002-04-10 00:00:00', 'L2', '20 rue de Marseille', 'F', true, 'emma.bernard@example.com', 'J2', 0, 'OUT'),
-    ('STD23006', 'Fabien', 'Dupont', '2001-11-05 00:00:00', 'L1', '15 rue de Lyon', 'M', false, 'fabien.dupont@example.com', 'H1', 0, 'IN'),
-    ('STD23007', 'Gina', 'Moreau', '2000-08-20 00:00:00', 'L3', '30 rue de Toulouse', 'F', false, 'gina.moreau@example.com', 'J2', 0, 'IN'),
-    ('STD23008', 'Henri', 'Lefevre', '2002-02-02 00:00:00', 'L1', '25 rue de Bordeaux', 'M', true, 'henri.lefevre@example.com', 'H1', 0, 'OUT'),
-    ('STD23009', 'Inès', 'Giraud', '2001-09-15 00:00:00', 'L2', '18 rue de Lille', 'F', false, 'ines.giraud@example.com', 'J1', 0, 'IN'),
-    ('STD23010', 'Julien', 'Roux', '2003-05-30 00:00:00', 'L3', '22 rue de Nantes', 'M', false, 'julien.roux@example.com', 'H2', 0, 'IN');
+    INSERT INTO student (id, first_name, last_name, birthday, grades, adress, sexe, cored, email, groupe, unjustified_missing_count, state) VALUES
+    ('STD23001', 'Alice', 'Dupont', '2005-05-15', 'L1', '10 rue de Paris', 'F', false, 'alice.dupont@example.com', 'J1', 0, 'IN'),
+    ('STD23002', 'Bob', 'Martin', '2005-06-20', 'L1', '12 avenue de Lyon', 'M', false, 'bob.martin@example.com', 'J1', 0, 'IN'),
+    ('STD23003', 'Chloé', 'Bernard', '2005-07-12', 'L1', '5 boulevard de Marseille', 'F', false, 'chloe.bernard@example.com', 'J2', 0, 'IN'),
+    ('STD23004', 'David', 'Leroy', '2005-08-25', 'L1', '15 rue de Lille', 'M', false, 'david.leroy@example.com', 'J2', 0, 'IN'),
+    ('STD23005', 'Émilie', 'Lemoine', '2005-09-10', 'L1', '20 avenue de Bordeaux', 'F', false, 'emilie.lemoine@example.com', 'J1', 0, 'IN'),
+    ('STD23006', 'François', 'Petit', '2005-10-05', 'L1', '30 rue de Nice', 'M', false, 'francois.petit@example.com', 'J1', 0, 'IN'),
+    ('STD23007', 'Géraldine', 'Moreau', '2005-11-18', 'L1', '25 rue de Nantes', 'F', false, 'geraldine.moreau@example.com', 'J2', 0, 'IN'),
+    ('STD23008', 'Hugo', 'Girard', '2005-12-30', 'L1', '40 avenue de Strasbourg', 'M', false, 'hugo.girard@example.com', 'J2', 0, 'IN'),
+    ('STD23009', 'Isabelle', 'Rousseau', '2006-01-14', 'L1', '50 boulevard de Toulouse', 'F', false, 'isabelle.rousseau@example.com', 'J1', 0, 'IN'),
+    ('STD23010', 'Julien', 'Dufour', '2006-02-22', 'L1', '60 rue de Montpellier', 'M', false, 'julien.dufour@example.com', 'J1', 0, 'IN'),
+    ('STD23011', 'Karine', 'Lambert', '2006-03-03', 'L1', '70 avenue de Lille', 'F', false, 'karine.lambert@example.com', 'J2', 0, 'IN'),
+    ('STD23012', 'Lucas', 'Pichon', '2006-04-11', 'L1', '80 boulevard de Rennes', 'M', false, 'lucas.pichon@example.com', 'J2', 0, 'IN'),
+    ('STD23013', 'Marie', 'Garnier', '2006-05-19', 'L1', '90 rue de Grenoble', 'F', false, 'marie.garnier@example.com', 'J1', 0, 'IN'),
+    ('STD23014', 'Nicolas', 'Bonnet', '2006-06-30', 'L1', '100 avenue de Reims', 'M', false, 'nicolas.bonnet@example.com', 'J1', 0, 'IN'),
+    ('STD23015', 'Océane', 'Brun', '2006-07-22', 'L1', '110 rue de Tours', 'F', false, 'oceane.brun@example.com', 'J2', 0, 'IN');
+
 
 
     -- Pour subject : 
