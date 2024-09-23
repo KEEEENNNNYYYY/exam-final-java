@@ -10,7 +10,6 @@
     
 ### `subject`
 
-    - Update : teacher name.
     - Update : total course hours
     
 ### `data base : postgresql`
@@ -64,6 +63,7 @@
     - Delete : Delete a subject.
     - Read : by teacher
     - Update : subject name.
+    - Update : teacher name.
 
 
 # note : 
