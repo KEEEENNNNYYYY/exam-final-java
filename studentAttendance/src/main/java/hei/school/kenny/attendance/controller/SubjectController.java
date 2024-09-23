@@ -55,4 +55,12 @@ public class SubjectController {
     ) {
         subjectService.updateName( value, id);
     }
+
+    @PutMapping("/subject/teacher")
+    public void updateTeacher(
+            @RequestParam(value = "value", required = false) String value,
+            @RequestParam(value = "id", required = true) String id
+    ) {
+        subjectService.updateTeacher( value, id);
+    }
 }
