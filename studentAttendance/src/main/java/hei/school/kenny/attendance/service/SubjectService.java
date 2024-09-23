@@ -39,6 +39,9 @@ public class SubjectService {
         subjectDAO.updateState( value, id);
     }
 
+    public void updateName(String value,String id) {
+        subjectDAO.updateName( value, id);
+    }
 
 
 }
