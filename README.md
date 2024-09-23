@@ -10,7 +10,6 @@
     
 ### `subject`
 
-    - Read : by Id
     - Read : by teacher
     - Update : Update an existing subject.
     - Delete : Delete a subject.
@@ -62,6 +61,7 @@
 
     - Create : new subject.
     - Read : Read all subjects.
+    - Read : by Id
 
 
 # note : 
